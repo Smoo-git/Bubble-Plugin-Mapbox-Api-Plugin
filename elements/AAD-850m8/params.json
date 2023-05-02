@@ -1,0 +1,56 @@
+{
+    "add_is_visible": true,
+    "can_fit_width": false,
+    "category": "visual elements",
+    "default_dim": {
+        "height": 400,
+        "width": 600
+    },
+    "display": "Mapbox Map",
+    "fields": {
+        "AAE": {
+            "caption": "zoom",
+            "default_val": "12",
+            "editor": "StaticText",
+            "name": "zoom",
+            "rank": 0
+        },
+        "AAF": {
+            "caption": "latitude",
+            "default_val": "30",
+            "editor": "StaticText",
+            "name": "latitude",
+            "rank": 1
+        },
+        "AAG": {
+            "caption": "longitude",
+            "default_val": "-70",
+            "editor": "StaticText",
+            "name": "longitude",
+            "rank": 2
+        },
+        "AAH": {
+            "caption": "iconWidth",
+            "default_val": "50",
+            "editor": "StaticText",
+            "name": "iconwidth",
+            "rank": 3
+        },
+        "AAI": {
+            "caption": "iconHeight",
+            "default_val": "50",
+            "editor": "StaticText",
+            "name": "iconheight",
+            "rank": 4
+        }
+    },
+    "icon": "ion-android-globe",
+    "property_applications": {
+        "Background": false,
+        "Border": false,
+        "BoxShadow": false,
+        "MinWidth": true,
+        "Padding": false,
+        "resizable": true
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "dependencies": {
+        "plugin_api_version": 3,
+        "use_jquery": true
+    },
+    "shared_keys": {
+        "AAC": {
+            "caption": "apiKey",
+            "type": "client_safe"
+        }
+    }
+}
