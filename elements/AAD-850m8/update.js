@@ -4,12 +4,6 @@ function(instance, properties, context) {
   let lat = properties.latitude;
   let zoom = properties.zoom;
 
-  // 複数のマーカーの座標を配列に格納
-  let markersData = [];
-  if (properties.multiLocation) {
-    markersData = [properties.locations];
-  }
-
   // 既存のマーカーを削除
   if (instance.data.markers) {
     instance.data.markers.forEach(marker => marker.remove());
@@ -17,6 +11,9 @@ function(instance, properties, context) {
   } else {
     instance.data.markers = [];
   }
+    
+  // 複数のマーカーの座標を配列に格納
+  let markersData = [];
 
   // 複数のマーカーを地図に追加
   if (properties.locations) {
