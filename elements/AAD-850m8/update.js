@@ -5,12 +5,13 @@ function(instance, properties, context) {
   let zoom = properties.zoom;
 
   // 複数のマーカーの座標を配列に格納
+  const markersData = [];
   if (properties.multiLocation) {
-      const markersData = [
-        { lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' },
-        { lng: 140.112740, lat: 36.082176, imgUrl: 'https://picsum.photos/seed/picsum/200/300' },
-        { lng: 140.115064, lat: 36.081237, imgUrl: 'https://picsum.photos/200' }
-      ];
+    markersData = [
+      { lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' },
+      { lng: 140.112740, lat: 36.082176, imgUrl: 'https://picsum.photos/seed/picsum/200/300' },
+      { lng: 140.115064, lat: 36.081237, imgUrl: 'https://picsum.photos/200' }
+    ];
   }
 
   // 既存のマーカーを削除
