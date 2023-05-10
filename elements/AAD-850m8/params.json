@@ -42,6 +42,14 @@
             "editor": "StaticText",
             "name": "iconHeight",
             "rank": 4
+        },
+        "AAJ": {
+            "caption": "multiLocation",
+            "default_val": false,
+            "editor": "Checkbox",
+            "in_style": false,
+            "name": "multiLocation",
+            "rank": 5
         }
     },
     "icon": "ion-android-globe",
