@@ -50,6 +50,16 @@
             "in_style": false,
             "name": "multiLocation",
             "rank": 5
+        },
+        "AAK": {
+            "caption": "locations",
+            "default_val": "{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' }",
+            "editor": "DynamicValue",
+            "is_list": false,
+            "long_text": true,
+            "name": "locations",
+            "rank": 6,
+            "value": "text"
         }
     },
     "icon": "ion-android-globe",

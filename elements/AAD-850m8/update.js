@@ -5,7 +5,7 @@ function(instance, properties, context) {
   let zoom = properties.zoom;
 
   // 複数のマーカーの座標を配列に格納
-  const markersData = [];
+  let markersData = [];
   if (properties.multiLocation) {
     markersData = [properties.locations];
   }
