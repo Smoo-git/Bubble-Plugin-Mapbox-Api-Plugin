@@ -5,7 +5,7 @@ function(instance, properties, context) {
   let zoom = properties.zoom;
 
   // 複数のマーカーの座標を配列に格納
-  const markersData = [];
+  let markersData = [];
   if (properties.multiLocation) {
     markersData = [
       { lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' },
