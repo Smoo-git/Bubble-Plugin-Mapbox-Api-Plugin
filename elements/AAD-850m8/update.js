@@ -15,7 +15,7 @@ function(instance, properties, context) {
   // 既存のマーカーを削除
   if (instance.data.markers) {
     instance.data.markers.forEach(marker => marker.remove());
-    instance.data.markers = []; // ここでマーカー配列をリセット
+    instance.data.markers = [];
   } else {
     instance.data.markers = [];
   }
