@@ -33,14 +33,14 @@
             "caption": "iconWidth",
             "default_val": "50",
             "editor": "StaticText",
-            "name": "iconwidth",
+            "name": "iconWidth",
             "rank": 3
         },
         "AAI": {
             "caption": "iconHeight",
             "default_val": "50",
             "editor": "StaticText",
-            "name": "iconheight",
+            "name": "iconHeight",
             "rank": 4
         }
     },
