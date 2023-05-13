@@ -6,7 +6,7 @@ function(instance, context) {
 
   let lng = 0;
   let lat = 0;
-  let zoom = 0;
+  let zoom = 12;
 
   mapboxgl.accessToken = context.keys.apiKey; // APIキーを参照
   const map = new mapboxgl.Map({
@@ -52,5 +52,6 @@ function(instance, context) {
   });
 
   instance.data.map = map;
-
+    
+    instance.publishState('center', null);
 }

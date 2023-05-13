@@ -7,41 +7,53 @@
         "width": 600
     },
     "display": "Mapbox Map",
+    "events": {
+        "AAc": {
+            "caption": "new events",
+            "doc": "",
+            "name": "new_events"
+        }
+    },
     "fields": {
         "AAE": {
             "caption": "zoom",
             "default_val": "12",
-            "editor": "StaticText",
+            "editor": "DynamicValue",
             "name": "zoom",
-            "rank": 0
+            "rank": 0,
+            "value": "number"
         },
         "AAF": {
             "caption": "latitude",
-            "default_val": "30",
-            "editor": "StaticText",
+            "default_val": 30,
+            "editor": "DynamicValue",
             "name": "latitude",
-            "rank": 1
+            "rank": 1,
+            "value": "number"
         },
         "AAG": {
             "caption": "longitude",
-            "default_val": "-70",
-            "editor": "StaticText",
+            "default_val": 140,
+            "editor": "DynamicValue",
             "name": "longitude",
-            "rank": 2
+            "rank": 2,
+            "value": "number"
         },
         "AAH": {
             "caption": "iconWidth",
-            "default_val": "50",
-            "editor": "StaticText",
+            "default_val": 50,
+            "editor": "DynamicValue",
             "name": "iconWidth",
-            "rank": 3
+            "rank": 3,
+            "value": "number"
         },
         "AAI": {
             "caption": "iconHeight",
-            "default_val": "50",
-            "editor": "StaticText",
+            "default_val": 50,
+            "editor": "DynamicValue",
             "name": "iconHeight",
-            "rank": 4
+            "rank": 4,
+            "value": "number"
         },
         "AAJ": {
             "caption": "multiLocation",
@@ -53,15 +65,24 @@
         },
         "AAK": {
             "caption": "locations",
-            "default_val": "{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' }",
             "editor": "DynamicValue",
             "is_list": false,
             "long_text": true,
             "name": "locations",
+            "optional": true,
             "rank": 6,
-            "value": "text"
+            "value": "_any_thing"
+        },
+        "AAe": {
+            "caption": "centerPointer",
+            "default_val": false,
+            "editor": "Checkbox",
+            "long_text": true,
+            "name": "centerPointer",
+            "rank": 7
         }
     },
+    "has_reset_fn": false,
     "icon": "ion-android-globe",
     "property_applications": {
         "Background": false,
@@ -70,5 +91,15 @@
         "MinWidth": true,
         "Padding": false,
         "resizable": true
+    },
+    "states": {
+        "AAb": {
+            "caption": "center",
+            "initialization_code": {
+                "fn": "function(instance, context) {\n    return;\n}"
+            },
+            "name": "center",
+            "value": "text"
+        }
     }
 }
