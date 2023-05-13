@@ -1,4 +1,25 @@
 function(instance, properties) {
+
+  const map = instance.data.map;
+
+  if (properties.showSearchBox) {
+    if (!instance.data.geocoder) {
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        placeholder: 'Search for a location',
+      });
+
+      map.addControl(geocoder, 'top-left');
+      instance.data.geocoder = geocoder; // geocoder を保存
+    }
+  } else {
+    if (instance.data.geocoder) {
+      map.removeControl(instance.data.geocoder);
+      instance.data.geocoder = null; // geocoder を削除
+    }
+  }
+
   // プロパティから座標とズームレベルを取得
   let lng = properties.longitude;
   let lat = properties.latitude;
@@ -16,7 +37,7 @@ function(instance, properties) {
   let markersData = [];
   console.log(properties.locations);
   if (properties.multiLocation) {
-    markersData = [{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' },{ lng: 140.1138031379, lat: 36.0821663, imgUrl: 'https://picsum.photos/200' }];
+    markersData = [{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' }, { lng: 140.1138031379, lat: 36.0821663, imgUrl: 'https://picsum.photos/200' }];
   }
 
   // 複数のマーカーを地図に追加
@@ -62,9 +83,9 @@ function(instance, properties) {
 
     instance.data.markers.push(marker);
   });
-    
-    
-      // マップの中心マーカーを作成
+
+
+  // マップの中心マーカーを作成
   const centerMarker = document.createElement('div');
   centerMarker.id = 'center-marker';
   centerMarker.style.position = 'absolute';
@@ -84,56 +105,56 @@ function(instance, properties) {
   if (centerMarkerElement.length === 0) {
     mapContainer.append(centerMarker);
   }
-    
+
 
   // mapオブジェクトの中心座標とズームレベルを更新
   if (instance.data.map) {
-      instance.data.map.setCenter([lng, lat]);
-      instance.data.map.setZoom(zoom);
-      
-      instance.data.map.on('moveend', () => {
-          const center = instance.data.map.getCenter();
-          const latitude = center.lat;
-          const longitude = center.lng;
-          instance.publishState('center', '緯度経度:' + latitude,longitude);
+    instance.data.map.setCenter([lng, lat]);
+    instance.data.map.setZoom(zoom);
+
+    instance.data.map.on('moveend', () => {
+      const center = instance.data.map.getCenter();
+      const latitude = center.lat;
+      const longitude = center.lng;
+      instance.publishState('center', '緯度経度:' + latitude, longitude);
+    });
+
+    // Initialize marker variable
+    let marker;
+
+    // Attach a click event listener to the map, but only if it hasn't been attached before
+    if (!instance.data.clickEventListenerAttached) {
+
+      instance.data.map.on('click', function (e) {
+        console.log('Latitude: ' + e.lngLat.lat + ', Longitude: ' + e.lngLat.lng);
+
+        //カスタムイベントが発火
+        instance.triggerEvent('new_events', function (err) {
+          if (err) {
+            console.log('エラーが発生しました:', err);
+          } else {
+            console.log('カスタムイベントがトリガーされました');
+          }
         });
-      
-      // Initialize marker variable
-        let marker;
-      
-      // Attach a click event listener to the map, but only if it hasn't been attached before
-        if(!instance.data.clickEventListenerAttached) {
-            
-            instance.data.map.on('click', function (e) {
-                console.log('Latitude: ' + e.lngLat.lat + ', Longitude: ' + e.lngLat.lng);
-                
-                //カスタムイベントが発火
-                instance.triggerEvent('new_events', function(err) {
-                  if (err) {
-                    console.log('エラーが発生しました:', err);
-                  } else {
-                    console.log('カスタムイベントがトリガーされました');
-                  }
-                });
 
-                // Remove the previous marker if it exists
-                if(marker) {
-                    marker.remove();
-                }
-
-                // Create a new marker
-                marker = new mapboxgl.Marker()
-                    .setLngLat(e.lngLat)
-                    .addTo(instance.data.map);
-
-                // Attach a click event listener to the marker
-                marker.getElement().addEventListener('click', () => {
-                    marker.remove();
-                    marker = null;
-                });
-            });
-
-            instance.data.clickEventListenerAttached = true;
+        // Remove the previous marker if it exists
+        if (marker) {
+          marker.remove();
         }
+
+        // Create a new marker
+        marker = new mapboxgl.Marker()
+          .setLngLat(e.lngLat)
+          .addTo(instance.data.map);
+
+        // Attach a click event listener to the marker
+        marker.getElement().addEventListener('click', () => {
+          marker.remove();
+          marker = null;
+        });
+      });
+
+      instance.data.clickEventListenerAttached = true;
+    }
   }
 }
