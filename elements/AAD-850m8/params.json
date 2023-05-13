@@ -80,6 +80,11 @@
             "long_text": true,
             "name": "centerPointer",
             "rank": 7
+        },
+        "AAg": {
+            "caption": "showSearchBox",
+            "name": "showSearchBox",
+            "rank": 8
         }
     },
     "has_reset_fn": false,

@@ -52,6 +52,6 @@ function(instance, context) {
   });
 
   instance.data.map = map;
-
-  instance.publishState('center', null);
+    
+    instance.publishState('center', null);
 }
