@@ -1,4 +1,14 @@
 {
     "caption": "load_action",
-    "doc": ""
+    "doc": "",
+    "fields": {
+        "AAn": {
+            "caption": "locations",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "locations",
+            "rank": 0,
+            "value": "_any_thing"
+        }
+    }
 }

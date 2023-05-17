@@ -8,50 +8,15 @@ function(instance, context) {
   let lat = 0;
   let zoom = 12;
 
-  mapboxgl.accessToken = context.keys.apiKey; // APIキーを参照
+  mapboxgl.accessToken = context.keys.apiKey;
   const map = new mapboxgl.Map({
-    container: mapContainer[0], // container element
-    style: 'mapbox://styles/mapbox/streets-v12', // style URL
-    center: [lng, lat], // starting position [lng, lat]
-    zoom: zoom, // starting zoom
-  });
-
-  map.addControl(new mapboxgl.GeolocateControl({
-    positionOptions: {
-      enableHighAccuracy: true
-    },
-    trackUserLocation: true,
-    showUserHeading: true
-  }));
-
-
-  const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl,
-    placeholder: 'Search for a location', // 検索バーに表示されるプレースホルダー
-  });
-
-  map.addControl(geocoder, 'top-left');
-
-  // 検索結果を受け取った後に実行される関数
-  geocoder.on('result', (e) => {
-    const coordinates = e.result.geometry.coordinates;
-    const popup = new mapboxgl.Popup()
-      .setHTML(`<h3>${e.result.text}</h3><p>${e.result.place_name}</p>`);
-
-    const marker = new mapboxgl.Marker()
-      .setLngLat(coordinates)
-      .setPopup(popup)
-      .addTo(map);
-
-    map.flyTo({
-      center: coordinates,
-      essential: true,
-      zoom: 14
-    });
+    container: mapContainer[0],
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [lng, lat],
+    zoom: zoom,
   });
 
   instance.data.map = map;
-    
-    instance.publishState('center', null);
+  instance.publishState('centerLat', null);
+  instance.publishState('centerLng', null);
 }

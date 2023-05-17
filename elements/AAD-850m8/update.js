@@ -4,14 +4,55 @@ function(instance, properties) {
 
   if (properties.showSearchBox) {
     if (!instance.data.geocoder) {
-      const geocoder = new MapboxGeocoder({
+        const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
-        placeholder: 'Search for a location',
+        placeholder: properties.geocoderPlaceholder
       });
-
       map.addControl(geocoder, 'top-left');
+        
+        // デフォルトで検索窓とボックスの幅を小さくする
+        const geocoderBox = document.querySelector('.mapboxgl-ctrl-geocoder');
+        const geocoderInput = document.querySelector('.mapboxgl-ctrl-geocoder--input');
+        const searchIcon = document.querySelector('.mapboxgl-ctrl-geocoder--icon-search');
+        geocoderBox.style.minWidth = '36px';
+        geocoderInput.style.width = '0px';
+        geocoderInput.style.padding = '0px';  // パディングを削除
+
+        // svgアイコンにクリックイベントを追加して検索窓とボックスの幅を切り替える
+        searchIcon.addEventListener('click', () => {
+            const clearButton = document.querySelector('.mapboxgl-ctrl-geocoder--button');
+            if (clearButton.style.display !== 'block') {
+              if (geocoderBox.style.minWidth === '36px') {
+                geocoderBox.style.minWidth = '200px';  // 幅を広くする
+                geocoderInput.style.width = '200px';  // 幅を広くする
+                geocoderInput.style.padding = '6px 17px 6px 37px';  // パディングを追加
+              } else {
+                geocoderBox.style.minWidth = '36px';  // 幅を小さくする
+                geocoderInput.style.width = '0px';  // 幅を小さくする
+                geocoderInput.style.padding = '0px';  // パディングを削除
+              }
+            }
+        });
+        
       instance.data.geocoder = geocoder; // geocoder を保存
+        // 検索結果を受け取った後に実行される関数
+        geocoder.on('result', (e) => {
+            const coordinates = e.result.geometry.coordinates;
+            const popup = new mapboxgl.Popup()
+            .setHTML(`<h3>${e.result.text}</h3><p>${e.result.place_name}</p>`);
+
+            const marker = new mapboxgl.Marker()
+            .setLngLat(coordinates)
+            .setPopup(popup)
+            .addTo(map);
+
+            map.flyTo({
+                center: coordinates,
+                essential: true,
+                zoom: 14
+            });
+        });
     }
   } else {
     if (instance.data.geocoder) {
@@ -19,6 +60,25 @@ function(instance, properties) {
       instance.data.geocoder = null; // geocoder を削除
     }
   }
+    
+    if(properties.currentLocation) {
+        if(!instance.data.geolocate) {
+            const geolocate = new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            });
+            map.addControl(geolocate, 'top-right');
+            instance.data.geolocate = geolocate;
+        }
+    } else {
+        if(instance.data.geolocate) {
+            map.removeControl(instance.data.geolocate);
+            instance.data.geolocate = null;
+        }
+    }
 
   // プロパティから座標とズームレベルを取得
   let lng = properties.longitude;
@@ -38,7 +98,6 @@ function(instance, properties) {
 
   // 複数のマーカーの座標を配列に格納
   let markersData = [];
-  console.log(properties.locations);
   if (properties.multiLocation) {
     markersData = [{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' }, { lng: 140.1138031379, lat: 36.0821663, imgUrl: 'https://picsum.photos/200' }];
   }
@@ -86,30 +145,42 @@ function(instance, properties) {
 
     instance.data.markers.push(marker);
   });
+    
+    if(properties.centerPointer) {
+          // マップの中心マーカーを作成
+          const centerMarker = document.createElement('div');
+          centerMarker.id = 'center-marker';
+          centerMarker.style.position = 'absolute';
+          centerMarker.style.top = '50%';
+          centerMarker.style.left = '50%';
+          centerMarker.style.transform = 'translate(-50%, -50%)';
+          centerMarker.style.width = '39px';
+          centerMarker.style.height = '46px';
+          centerMarker.style.marginBottom = '46px';
+          centerMarker.style.background = 'url(https://meta-l.cdn.bubble.io/f1683955456343x854438000473968000/pin_ja.svg)';
+			  centerMarker.style.backgroundSize = 'cover';
+          centerMarker.style.borderRadius = '50%';
 
+          // マップのコンテナ要素と中心マーカー要素を取得
+          const mapContainer = instance.canvas.find('#map');
+          const centerMarkerElement = mapContainer.find('#center-marker');
 
-  // マップの中心マーカーを作成
-  const centerMarker = document.createElement('div');
-  centerMarker.id = 'center-marker';
-  centerMarker.style.position = 'absolute';
-  centerMarker.style.top = '50%';
-  centerMarker.style.left = '50%';
-  centerMarker.style.transform = 'translate(-50%, -50%)';
-  centerMarker.style.width = '20px';
-  centerMarker.style.height = '20px';
-  centerMarker.style.backgroundColor = 'red';
-  centerMarker.style.borderRadius = '50%';
+          // マップのコンテナ要素に中心マーカー要素を追加
+          if (centerMarkerElement.length === 0) {
+            mapContainer.append(centerMarker);
+          }
 
-  // マップのコンテナ要素と中心マーカー要素を取得
-  const mapContainer = instance.canvas.find('#map');
-  const centerMarkerElement = mapContainer.find('#center-marker');
+    } else {
+        // マップのコンテナ要素と中心マーカー要素を取得
+        const mapContainer = instance.canvas.find('#map');
+        const centerMarkerElement = mapContainer.find('#center-marker');
 
-  // マップのコンテナ要素に中心マーカー要素を追加
-  if (centerMarkerElement.length === 0) {
-    mapContainer.append(centerMarker);
-  }
-
-
+        // マップのコンテナ要素から中心マーカー要素を削除
+        if (centerMarkerElement.length !== 0) {
+            centerMarkerElement.remove();
+        }
+    }
+    
   // mapオブジェクトの中心座標とズームレベルを更新
   if (instance.data.map) {
     instance.data.map.setCenter([lng, lat]);
@@ -119,7 +190,8 @@ function(instance, properties) {
       const center = instance.data.map.getCenter();
       const latitude = center.lat;
       const longitude = center.lng;
-      instance.publishState('center', '緯度経度:' + latitude, longitude);
+      instance.publishState('centerLat', '緯度:' + latitude);
+      instance.publishState('centerLng', '経度:' + longitude);
     });
 
     // Initialize marker variable
@@ -160,4 +232,18 @@ function(instance, properties) {
       instance.data.clickEventListenerAttached = true;
     }
   }
+    
+try {
+  if (properties.locations && typeof properties.locations.get === 'function' && typeof properties.locations.length === 'function') {
+        let locations = properties.locations.get(0, properties.locations.length());
+
+        let processEachLocation = (location, index, array) => {
+          console.log(location.get("name"));
+        }
+        locations.forEach(processEachLocation);
+      }
+    } catch (error) {
+      console.error('Error while trying to get location data:', error);
+    }
+
 }

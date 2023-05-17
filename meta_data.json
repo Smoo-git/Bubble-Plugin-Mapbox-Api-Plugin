@@ -4,5 +4,6 @@
     },
     "image": "//s3.amazonaws.com/appforest_uf/f1531455189113x959372189361602000/Bubble%20Icon.png",
     "license": "private",
-    "name": "Mapbox API Plugin"
+    "name": "Mapbox API Plugin",
+    "sa_node_version": 14
 }
