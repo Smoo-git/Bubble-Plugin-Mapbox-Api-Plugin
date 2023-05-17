@@ -32,6 +32,9 @@ function(instance, properties) {
   } else {
     instance.data.markers = [];
   }
+    
+  // 複数のマーカーの座標を配列に格納
+  let markersData = [];
 
   // 複数のマーカーの座標を配列に格納
   let markersData = [];
