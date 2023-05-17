@@ -66,25 +66,53 @@
         "AAK": {
             "caption": "locations",
             "editor": "DynamicValue",
-            "is_list": false,
+            "is_list": true,
             "long_text": true,
             "name": "locations",
-            "optional": true,
-            "rank": 6,
+            "optional": false,
+            "rank": 7,
             "value": "_any_thing"
         },
         "AAe": {
             "caption": "centerPointer",
-            "default_val": false,
-            "editor": "Checkbox",
+            "default_val": true,
+            "editor": "DynamicValue",
             "long_text": true,
             "name": "centerPointer",
-            "rank": 7
+            "rank": 8,
+            "value": "boolean"
         },
         "AAg": {
             "caption": "showSearchBox",
+            "default_val": true,
+            "editor": "DynamicValue",
             "name": "showSearchBox",
-            "rank": 8
+            "rank": 9,
+            "value": "boolean"
+        },
+        "AAh": {
+            "caption": "currentLocation",
+            "default_val": true,
+            "editor": "DynamicValue",
+            "name": "currentLocation",
+            "rank": 10,
+            "value": "boolean"
+        },
+        "AAi": {
+            "caption": "geocoderPlaceholder",
+            "default_val": "Search for a location",
+            "editor": "StaticText",
+            "name": "geocoderPlaceholder",
+            "rank": 11
+        },
+        "AAo": {
+            "caption": "multilocations",
+            "editor": "custom_type",
+            "is_list": true,
+            "name": "multilocations",
+            "optional": false,
+            "rank": 6,
+            "value": "_any_thing"
         }
     },
     "has_reset_fn": false,
@@ -99,11 +127,19 @@
     },
     "states": {
         "AAb": {
-            "caption": "center",
+            "caption": "centerLat",
             "initialization_code": {
                 "fn": "function(instance, context) {\n    return;\n}"
             },
-            "name": "center",
+            "name": "centerLat",
+            "value": "text"
+        },
+        "AAl": {
+            "caption": "centerLng",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "centerLng",
             "value": "text"
         }
     }

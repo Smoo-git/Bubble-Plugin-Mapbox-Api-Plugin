@@ -1,7 +1,17 @@
 {
+    "assets": {
+        "AAj": {
+            "name": "search_icon",
+            "url": "//meta-l.cdn.bubble.io/f1683954088489x612447245053165300/Property%3Dsearch%2C%20Status%3DOn.svg"
+        },
+        "AAk": {
+            "name": "center_pin",
+            "url": "//meta-l.cdn.bubble.io/f1683955456343x854438000473968000/pin_ja.svg"
+        }
+    },
     "dependencies": {
-        "alpha_opt_in": false,
-        "plugin_api_version": 3,
+        "alpha_opt_in": true,
+        "plugin_api_version": "3",
         "use_jquery": true
     },
     "shared_keys": {
