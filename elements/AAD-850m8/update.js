@@ -92,15 +92,32 @@ function(instance, properties) {
   } else {
     instance.data.markers = [];
   }
-    
-  // 複数のマーカーの座標を配列に格納
-  let markersData = [];
 
   // 複数のマーカーの座標を配列に格納
   let markersData = [];
-  if (properties.multiLocation) {
-    markersData = [{ lng: 140.11380313795797, lat: 36.08213568665823, imgUrl: 'https://picsum.photos/200' }, { lng: 140.1138031379, lat: 36.0821663, imgUrl: 'https://picsum.photos/200' }];
-  }
+    try {
+  if (properties.locations && typeof properties.locations.get === 'function' && typeof properties.locations.length === 'function') {
+        let locations = properties.locations.get(0, properties.locations.length());
+
+        let processEachLocation = (location, index, array) => {
+          // データベースから取得した値を変数に代入
+          let lat = location.get("latitude_number");
+          let lng = location.get("longitude_number");
+          let imgUrl = location.get("img_image");
+
+          // markersData配列に新たな要素を追加
+          markersData.push({
+            lng: lng,
+            lat: lat,
+            imgUrl: imgUrl
+          });
+        }
+        locations.forEach(processEachLocation);
+      }
+    } catch (error) {
+      console.error('Error while trying to get location data:', error);
+    }
+console.log(markersData);
 
   // 複数のマーカーを地図に追加
   markersData.forEach(markerData => {
@@ -232,18 +249,5 @@ function(instance, properties) {
       instance.data.clickEventListenerAttached = true;
     }
   }
-    
-try {
-  if (properties.locations && typeof properties.locations.get === 'function' && typeof properties.locations.length === 'function') {
-        let locations = properties.locations.get(0, properties.locations.length());
-
-        let processEachLocation = (location, index, array) => {
-          console.log(location.get("name"));
-        }
-        locations.forEach(processEachLocation);
-      }
-    } catch (error) {
-      console.error('Error while trying to get location data:', error);
-    }
 
 }
