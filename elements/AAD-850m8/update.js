@@ -122,7 +122,6 @@ function(instance, properties) {
   // 複数のマーカーを地図に追加
   markersData.forEach(markerData => {
     const markerCoordinates = [markerData.lng, markerData.lat];
-
     const containerElement = document.createElement('div');
     containerElement.style.marginTop = -properties.iconHeight + 'px';
 
@@ -161,10 +160,9 @@ function(instance, properties) {
     const markerHeight = parseInt(iconElement.style.height) + parseInt(triangleElement.getAttribute('height'));
     const markerOffset = [0, -markerHeight / 2];
 
-    const marker = new mapboxgl.Marker({ element: containerElement })
+    const marker = new mapboxgl.Marker({ element: containerElement, anchor: 'bottom' })
       .setLngLat(markerCoordinates)
       .addTo(instance.data.map);
-
     instance.data.markers.push(marker);
   });
 
