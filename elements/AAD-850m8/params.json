@@ -113,6 +113,21 @@
             "optional": false,
             "rank": 6,
             "value": "_any_thing"
+        },
+        "AAp": {
+            "caption": "ImageMarker",
+            "default_val": true,
+            "editor": "Checkbox",
+            "in_style": false,
+            "name": "imageMarker",
+            "rank": 12
+        },
+        "AAq": {
+            "caption": "defaultImage",
+            "editor": "Image",
+            "name": "defaultImage",
+            "optional": true,
+            "rank": 13
         }
     },
     "has_reset_fn": false,

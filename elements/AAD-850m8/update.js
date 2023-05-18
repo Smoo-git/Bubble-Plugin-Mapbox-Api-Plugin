@@ -117,41 +117,55 @@ function(instance, properties) {
   } catch (error) {
     console.error('Error while trying to get location data:', error);
   }
-  console.log(markersData);
+    var geojson = {
+      type: 'FeatureCollection',
+      features: markersData.map(function(marker) {
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [marker.lng, marker.lat]
+          },
+          properties: {
+            someProperty: marker.someProperty
+            // 他のプロパティもここに追加できます
+          }
+        };
+      })
+    };
 
   // 複数のマーカーを地図に追加
   markersData.forEach(markerData => {
     const markerCoordinates = [markerData.lng, markerData.lat];
+    if(properties.imageMarker) {
     const containerElement = document.createElement('div');
-    containerElement.style.marginTop = -properties.iconHeight + 'px';
 
     // 画像アイコン用の要素を作成
     let iconElement = new Image(properties.iconWidth, properties.iconHeight);
     if (markerData.imgUrl) {
       iconElement.src = markerData.imgUrl;
+    } else {
+      iconElement.src = properties.defaultImage;
+    }
       iconElement.style.borderRadius = '50%';
       iconElement.style.border = '2px solid white';
       iconElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
-    } else {
-      // マーカーの代替として通常の円を表示
-      iconElement.src = 'https://api.mapbox.com/marker/v1/pin-s+000000.png';
-    }
 
     // 吹き出しの三角形を表すSVG要素を作成
-    const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    triangleElement.setAttribute('width', '12');
-    triangleElement.setAttribute('height', '10');
-    triangleElement.setAttribute('viewBox', '0 0 12 10');
-    triangleElement.style.position = 'absolute';
-    triangleElement.style.top = 'calc(100% - 2px)';
-    triangleElement.style.left = 'calc(50% - 6px)';
-    triangleElement.style.transform = 'translateY(-50%)';
+      const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      triangleElement.setAttribute('width', '12');
+      triangleElement.setAttribute('height', '10');
+      triangleElement.setAttribute('viewBox', '0 0 12 10');
+      triangleElement.style.position = 'absolute';
+      triangleElement.style.top = 'calc(100% - 2px)';
+      triangleElement.style.left = 'calc(50% - 6px)';
+      triangleElement.style.transform = 'translateY(-50%)';
 
-    const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
-    pathElement.setAttribute('fill', 'white');
+      const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
+      pathElement.setAttribute('fill', 'white');
 
-    triangleElement.appendChild(pathElement);
+      triangleElement.appendChild(pathElement);
 
     // コンテナ要素にアイコンと三角形を追加
     containerElement.appendChild(iconElement);
@@ -160,14 +174,25 @@ function(instance, properties) {
     const markerHeight = parseInt(iconElement.style.height) + parseInt(triangleElement.getAttribute('height'));
     const markerOffset = [0, -markerHeight / 2];
 
-    const marker = new mapboxgl.Marker({ element: containerElement, anchor: 'bottom' })
+     //マーカー作成
+    const marker = new mapboxgl.Marker({
+        element: containerElement,
+        anchor: 'bottom'
+    })
       .setLngLat(markerCoordinates)
       .addTo(instance.data.map);
     instance.data.markers.push(marker);
+    } else {
+        const marker = new mapboxgl.Marker({anchor: 'bottom'})
+        .setLngLat(markerCoordinates)
+        .addTo(instance.data.map);
+        instance.data.markers.push(marker);
+    }
   });
-
+    
+    
+	// マップの中心マーカーを作成
   if (properties.centerPointer) {
-    // マップの中心マーカーを作成
     const centerMarker = document.createElement('div');
     centerMarker.id = 'center-marker';
     centerMarker.style.position = 'absolute';
@@ -252,5 +277,6 @@ function(instance, properties) {
       instance.data.clickEventListenerAttached = true;
     }
   }
+
 
 }
