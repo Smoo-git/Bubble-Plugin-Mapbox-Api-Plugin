@@ -1,5 +1,2 @@
 function(properties, context) {
-
-
-
 }

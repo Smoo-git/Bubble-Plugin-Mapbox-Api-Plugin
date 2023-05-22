@@ -144,7 +144,7 @@
         "AAb": {
             "caption": "centerLat",
             "initialization_code": {
-                "fn": "function(instance, context) {\n    return;\n}"
+                "fn": "function(instance, context) {\n}"
             },
             "name": "centerLat",
             "value": "text"
@@ -152,7 +152,7 @@
         "AAl": {
             "caption": "centerLng",
             "initialization_code": {
-                "fn": "function(properties, context) {\n\n\n\n}"
+                "fn": "function(properties, context) {\n}"
             },
             "name": "centerLng",
             "value": "text"

@@ -103,7 +103,12 @@ function(instance, properties) {
         // データベースから取得した値を変数に代入
         let lat = location.get("latitude_number");
         let lng = location.get("longitude_number");
-        let imgUrl = location.get("img_image");
+        let imgUrl;
+          if (location.get("img_image")) {
+        		imgUrl = location.get("img_image");
+          } else {
+             imgUrl = properties.defaultImage;
+          }
 
         // markersData配列に新たな要素を追加
         markersData.push({
@@ -117,7 +122,7 @@ function(instance, properties) {
   } catch (error) {
     console.error('Error while trying to get location data:', error);
   }
-    var geojson = {
+    const geojson = {
       type: 'FeatureCollection',
       features: markersData.map(function(marker) {
         return {
@@ -127,68 +132,64 @@ function(instance, properties) {
             coordinates: [marker.lng, marker.lat]
           },
           properties: {
-            someProperty: marker.someProperty
-            // 他のプロパティもここに追加できます
+                image: marker.imgUrl
           }
         };
       })
     };
 
-  // 複数のマーカーを地図に追加
-  markersData.forEach(markerData => {
-    const markerCoordinates = [markerData.lng, markerData.lat];
-    if(properties.imageMarker) {
-    const containerElement = document.createElement('div');
+  // Add markers to the map.
+    for (const marker of geojson.features) {
+        if(properties.imageMarker) {
+            // Create a DOM element for each marker.
+            const containerElement = document.createElement('div');
 
-    // 画像アイコン用の要素を作成
-    let iconElement = new Image(properties.iconWidth, properties.iconHeight);
-    if (markerData.imgUrl) {
-      iconElement.src = markerData.imgUrl;
-    } else {
-      iconElement.src = properties.defaultImage;
+            const el = document.createElement('div');
+            const width = properties.iconWidth;
+            const height = properties.iconHeight;
+            const image = marker.properties.image;
+
+            containerElement.style.height = `${height + 7}px`;
+
+            // 吹き出しの三角形を表すSVG要素を作成
+            const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            triangleElement.setAttribute('width', '12');
+            triangleElement.setAttribute('height', '10');
+            triangleElement.setAttribute('viewBox', '0 0 12 10');
+            triangleElement.style.position = 'absolute';
+            triangleElement.style.top = 'calc(100% - 3px)';
+            triangleElement.style.left = 'calc(50% - 6px)';
+            triangleElement.style.transform = 'translateY(-50%)';
+
+            const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
+            pathElement.setAttribute('fill', 'white');
+
+            triangleElement.appendChild(pathElement);
+            containerElement.appendChild(triangleElement);
+
+            //画像部分
+            el.className = 'marker';
+            el.style.backgroundImage = `url(https://${image})`;
+            el.style.width = `${width}px`;
+            el.style.height = `${height}px`;
+            el.style.backgroundSize = '100%';
+            el.style.borderRadius = '50%';
+            el.style.border = '2px solid white';
+            el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+
+            containerElement.appendChild(el);
+
+            // Add markers to the map.
+            new mapboxgl.Marker(containerElement, {anchor: 'bottom'})
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map);
+        } else {
+            new mapboxgl.Marker({anchor: 'bottom'})
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+        }
     }
-      iconElement.style.borderRadius = '50%';
-      iconElement.style.border = '2px solid white';
-      iconElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
-
-    // 吹き出しの三角形を表すSVG要素を作成
-      const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      triangleElement.setAttribute('width', '12');
-      triangleElement.setAttribute('height', '10');
-      triangleElement.setAttribute('viewBox', '0 0 12 10');
-      triangleElement.style.position = 'absolute';
-      triangleElement.style.top = 'calc(100% - 2px)';
-      triangleElement.style.left = 'calc(50% - 6px)';
-      triangleElement.style.transform = 'translateY(-50%)';
-
-      const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
-      pathElement.setAttribute('fill', 'white');
-
-      triangleElement.appendChild(pathElement);
-
-    // コンテナ要素にアイコンと三角形を追加
-    containerElement.appendChild(iconElement);
-    containerElement.appendChild(triangleElement);
-
-    const markerHeight = parseInt(iconElement.style.height) + parseInt(triangleElement.getAttribute('height'));
-    const markerOffset = [0, -markerHeight / 2];
-
-     //マーカー作成
-    const marker = new mapboxgl.Marker({
-        element: containerElement,
-        anchor: 'bottom'
-    })
-      .setLngLat(markerCoordinates)
-      .addTo(instance.data.map);
-    instance.data.markers.push(marker);
-    } else {
-        const marker = new mapboxgl.Marker({anchor: 'bottom'})
-        .setLngLat(markerCoordinates)
-        .addTo(instance.data.map);
-        instance.data.markers.push(marker);
-    }
-  });
     
     
 	// マップの中心マーカーを作成
@@ -277,6 +278,4 @@ function(instance, properties) {
       instance.data.clickEventListenerAttached = true;
     }
   }
-
-
 }

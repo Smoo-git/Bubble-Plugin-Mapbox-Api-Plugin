@@ -1,0 +1,12 @@
+{
+    "caption": "jump_to_location",
+    "fields": {
+        "AAs": {
+            "caption": "location",
+            "editor": "DynamicValue",
+            "name": "location",
+            "rank": 0,
+            "value": "_any_thing"
+        }
+    }
+}

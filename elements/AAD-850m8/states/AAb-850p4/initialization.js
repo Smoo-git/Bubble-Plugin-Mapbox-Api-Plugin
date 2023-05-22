@@ -1,3 +1,2 @@
 function(instance, context) {
-    return;
 }
