@@ -217,7 +217,6 @@ function(instance, properties) {
       // マーカー要素をクリックしたときの処理
       markerElement.addEventListener('click', () => {
         expandMarker(markerElement, width, height);
-        console.log(markerElement);
       });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
@@ -233,6 +232,7 @@ function(instance, properties) {
   function expandMarker(markerElement, originalWidth, originalHeight) {
     const expandedWidth = originalWidth * 1.5;
     const expandedHeight = originalHeight * 1.5;
+    console.log(expandedWidth);
 
     // SVG 要素を取得
     const svgElement = markerElement.querySelector('svg');
