@@ -220,15 +220,27 @@ function(instance, properties) {
         .addTo(map);
     }
     newMarker.getElement().addEventListener('click', () => {
-      expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
+      if (expandedMarker === newMarker) {
+        // クリックされたマーカーが既に拡大されている場合、サイズを元に戻す
+        expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
+        expandedMarker = null;
+      } else {
+        // 他のマーカーがクリックされた場合、拡大されたマーカーのサイズを元に戻す
+        if (expandedMarker) {
+          expandMarker(expandedMarker.getElement(), properties.iconWidth, properties.iconHeight);
+        }
+        // クリックされたマーカーを拡大する
+        expandMarker(newMarker.getElement(), properties.iconWidth * 1.5, properties.iconHeight * 1.5);
+        expandedMarker = newMarker;
+      }
     });
     // 追加したマーカーをinstance.data.markersに保存
     instance.data.markers.push(newMarker);
   }
 
   function expandMarker(markerElement, originalWidth, originalHeight) {
-    const expandedWidth = originalWidth * 1.5;
-    const expandedHeight = originalHeight * 1.5;
+    const expandedWidth = originalWidth;
+    const expandedHeight = originalHeight;
 
     // SVG内の各要素を取得
     const circleElement = markerElement.querySelector('circle');
