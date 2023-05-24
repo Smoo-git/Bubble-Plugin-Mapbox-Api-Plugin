@@ -150,33 +150,61 @@ function(instance, properties) {
     svgElement.setAttributeNS(null, 'width', width);
     svgElement.setAttributeNS(null, 'height', height + 10); // 三角形の高さ分追加
 
+    // グループ要素を作成（シャドウの適用のため）
+    const groupElement = document.createElementNS(svgns, 'g');
+
     // 円形の部分（バルーンの部分）
     const circleElement = document.createElementNS(svgns, 'circle');
     circleElement.setAttributeNS(null, 'cx', width / 2);
     circleElement.setAttributeNS(null, 'cy', height / 2);
-    circleElement.setAttributeNS(null, 'r', (width - 4) / 2); // ボーダーの分を減らす
+    circleElement.setAttributeNS(null, 'r', (width - 8) / 2); // ボーダーの分を減らす
     circleElement.setAttributeNS(null, 'fill', 'white');
+    circleElement.setAttributeNS(null, 'stroke', 'black'); // ボーダーの色
+    circleElement.setAttributeNS(null, 'stroke-width', '4'); // ボーダーの幅
+    circleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 三角形の部分（吹き出しの尾部分）
     const triangleElement = document.createElementNS(svgns, 'polygon');
-    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 5}, ${height} ${width / 2 + 5}, ${height} ${width / 2}, ${height + 5}`);
+    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 8}, ${height} ${width / 2 + 8}, ${height} ${width / 2}, ${height + 5}`); // 幅を半分にしてマイナスマージンを適用
     triangleElement.setAttributeNS(null, 'fill', 'white');
+    triangleElement.setAttributeNS(null, 'stroke', 'black'); // ボーダーの色
+    triangleElement.setAttributeNS(null, 'stroke-width', '4'); // ボーダーの幅
+    triangleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 画像を配置
     const imageElement = document.createElementNS(svgns, 'image');
     imageElement.setAttributeNS(null, 'href', `https://${image}`);
-    imageElement.setAttributeNS(null, 'height', height - 4); // ボーダーの分を減らす
-    imageElement.setAttributeNS(null, 'width', width - 4); // ボーダーの分を減らす
-    imageElement.setAttributeNS(null, 'y', 2); // ボーダーの分をオフセットする
-    imageElement.setAttributeNS(null, 'x', 2); // ボーダーの分をオフセットする
-    imageElement.setAttributeNS(null, 'clip-path', 'circle(48% at 50% 50%)'); // 画像を円形に切り抜く、ボーダーの分を減らす
+    imageElement.setAttributeNS(null, 'height', height - 8); // ボーダーの分を減らす
+    imageElement.setAttributeNS(null, 'width', width - 8); // ボーダーの分を減らす
+    imageElement.setAttributeNS(null, 'y', 4); // ボーダーの分をオフセットする
+    imageElement.setAttributeNS(null, 'x', 4); // ボーダーの分をオフセットする
+    imageElement.setAttributeNS(null, 'clip-path', 'circle(48% at 50% 50%)'); // 画像を円形に切り抜く
+    imageElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
-    svgElement.appendChild(circleElement);
-    svgElement.appendChild(triangleElement);
-    svgElement.appendChild(imageElement);
+    // シャドウのフィルター要素を作成
+    const filterElement = document.createElementNS(svgns, 'filter');
+    filterElement.setAttributeNS(null, 'id', 'marker-shadow');
+    filterElement.setAttributeNS(null, 'x', '-20%');
+    filterElement.setAttributeNS(null, 'y', '-20%');
+    filterElement.setAttributeNS(null, 'width', '140%');
+    filterElement.setAttributeNS(null, 'height', '140%');
+
+    const feDropShadowElement = document.createElementNS(svgns, 'feDropShadow');
+    feDropShadowElement.setAttributeNS(null, 'dx', '0');
+    feDropShadowElement.setAttributeNS(null, 'dy', '2');
+    feDropShadowElement.setAttributeNS(null, 'stdDeviation', '4');
+    feDropShadowElement.setAttributeNS(null, 'flood-color', 'rgba(0, 0, 0, 0.4)');
+
+    filterElement.appendChild(feDropShadowElement);
+    svgElement.appendChild(filterElement);
+    groupElement.appendChild(circleElement);
+    groupElement.appendChild(triangleElement);
+    groupElement.appendChild(imageElement);
+    svgElement.appendChild(groupElement);
 
     return svgElement;
   }
+
 
 
   for (const marker of geojson.features) {
