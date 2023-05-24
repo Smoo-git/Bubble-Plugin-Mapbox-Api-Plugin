@@ -223,52 +223,18 @@ function(instance, properties) {
     instance.data.markers.push(newMarker);
   }
 
-  function expandMarker(markerElement, originalWidth, originalHeight) {
-    const expandedWidth = originalWidth * 1.5;
-    const expandedHeight = originalHeight * 1.5;
-
-    // SVG内の各要素を取得
-    const circleElement = markerElement.querySelector('circle');
-    const imageElement = markerElement.querySelector('image');
-
-    if (circleElement && imageElement) {
-      // 拡大前の縦横比を計算
-      const originalAspectRatio = originalWidth / originalHeight;
-
-      // 画像と円のサイズを調整
-      const newWidth = expandedWidth - 8;
-      const newHeight = newWidth / originalAspectRatio;
-      const newCx = newWidth / 2;
-      const newCy = newHeight / 2;
-      circleElement.setAttribute('r', newWidth / 2);
-      circleElement.setAttribute('cx', newCx);
-      circleElement.setAttribute('cy', newCy);
-      imageElement.setAttribute('height', newHeight);
-      imageElement.setAttribute('width', newWidth);
-      imageElement.setAttribute('y', newCy - newHeight / 2);
-      imageElement.setAttribute('x', newCx - newWidth / 2);
-    }
-
-    // 吹き出し部分の縦横比を保ったまま拡大
-    markerElement.setAttribute('width', expandedWidth);
-    markerElement.setAttribute('height', expandedHeight);
-    // .activeクラスを追加
-    markerElement.classList.add('active');
-  }
-
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
-        // クリックされたマーカーを拡大する
-        expandMarker(marker.getElement(), properties.iconWidth, properties.iconHeight);
         marker.getElement().classList.add('active');
-
-        // 他のマーカーのサイズを縮小する
+        marker.getElement().style.width = properties.iconWidth * 1.5;
+        marker.getElement().style.height = properties.iconHeight * 1.5;
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
-            expandMarker(otherMarker.getElement(), properties.iconWidth / 1.5, properties.iconHeight / 1.5);
             otherMarker.getElement().classList.remove('active');
+            marker.getElement().style.width = properties.iconWidth;
+            marker.getElement().style.height = properties.iconHeight;
           }
         }
       }
