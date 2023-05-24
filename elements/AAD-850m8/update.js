@@ -131,7 +131,7 @@ function(instance, properties) {
     features: markersData.map(function (marker) {
       return {
         type: 'Feature',
-        id: marker.id, // マーカーのIDを指定する
+        id: marker.id,
         geometry: {
           type: 'Point',
           coordinates: [marker.lng, marker.lat]
@@ -150,7 +150,7 @@ function(instance, properties) {
     // SVG要素を作成
     const svgElement = document.createElementNS(svgns, 'svg');
     svgElement.setAttributeNS(null, 'width', width);
-    svgElement.setAttributeNS(null, 'height', height + 10); // 三角形の高さ分追加
+    svgElement.setAttributeNS(null, 'height', height + 10);
 
     // グループ要素を作成（シャドウの適用のため）
     const groupElement = document.createElementNS(svgns, 'g');
@@ -214,20 +214,17 @@ function(instance, properties) {
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
-      // マーカー要素をクリックしたときの処理
-      markerElement.addEventListener('click', () => {
-        expandMarker(markerElement, width, height);
-      });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
     }
-
+    newMarker.getElement().addEventListener('click', () => {
+      expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
+    });
     // 追加したマーカーをinstance.data.markersに保存
     instance.data.markers.push(newMarker);
   }
-
 
   function expandMarker(markerElement, originalWidth, originalHeight) {
     const expandedWidth = originalWidth * 1.5;
@@ -259,9 +256,6 @@ function(instance, properties) {
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
   }
-
-
-
 
 
   // マップの中心マーカーを作成
