@@ -224,22 +224,23 @@ function(instance, properties) {
   }
 
   function expandMarker(markerElement, originalWidth, originalHeight) {
-    const expandedWidth = originalWidth;
-    const expandedHeight = originalHeight;
+    const expandedWidth = originalWidth * 1.5;
+    const expandedHeight = originalHeight * 1.5;
 
     // SVG内の各要素を取得
     const circleElement = markerElement.querySelector('circle');
     const imageElement = markerElement.querySelector('image');
 
     if (circleElement && imageElement) {
-      // 拡大前の縦横比を計算
-      const originalAspectRatio = originalWidth / originalHeight;
+      // 中心座標を取得
+      const cx = parseFloat(circleElement.getAttribute('cx'));
+      const cy = parseFloat(circleElement.getAttribute('cy'));
 
       // 画像と円のサイズを調整
       const newWidth = expandedWidth - 8;
-      const newHeight = newWidth / originalAspectRatio;
-      const newCx = newWidth / 2;
-      const newCy = newHeight / 2;
+      const newHeight = newWidth / (originalWidth / originalHeight);
+      const newCx = cx * (expandedWidth / originalWidth);
+      const newCy = cy * (expandedHeight / originalHeight);
       circleElement.setAttribute('r', newWidth / 2);
       circleElement.setAttribute('cx', newCx);
       circleElement.setAttribute('cy', newCy);
@@ -255,6 +256,7 @@ function(instance, properties) {
     // .activeクラスを追加
     markerElement.classList.add('active');
   }
+
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
