@@ -1,0 +1,25 @@
+{
+    "caption": "fit_bound",
+    "fields": {
+        "ABL": {
+            "caption": "locations",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "locations",
+            "rank": 0,
+            "value": "_any_thing"
+        },
+        "ABM": {
+            "caption": "latitudedbname",
+            "editor": "StaticText",
+            "name": "latitudedbname",
+            "rank": 1
+        },
+        "ABN": {
+            "caption": "longitudedbname",
+            "editor": "StaticText",
+            "name": "longitudedbname",
+            "rank": 2
+        }
+    }
+}

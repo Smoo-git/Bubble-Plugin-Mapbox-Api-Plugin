@@ -48,22 +48,13 @@
             "rank": 3,
             "value": "number"
         },
-        "AAI": {
-            "caption": "iconHeight",
-            "default_val": 50,
-            "doc": "max 80px",
-            "editor": "DynamicValue",
-            "name": "iconHeight",
-            "rank": 4,
-            "value": "number"
-        },
         "AAJ": {
             "caption": "multiLocation",
             "default_val": false,
             "editor": "Checkbox",
             "in_style": false,
             "name": "multiLocation",
-            "rank": 5
+            "rank": 4
         },
         "AAK": {
             "caption": "locations",
@@ -72,7 +63,7 @@
             "long_text": true,
             "name": "locations",
             "optional": false,
-            "rank": 7,
+            "rank": 6,
             "value": "_any_thing"
         },
         "AAe": {
@@ -81,7 +72,7 @@
             "editor": "DynamicValue",
             "long_text": true,
             "name": "centerPointer",
-            "rank": 8,
+            "rank": 7,
             "value": "boolean"
         },
         "AAg": {
@@ -89,7 +80,7 @@
             "default_val": true,
             "editor": "DynamicValue",
             "name": "showSearchBox",
-            "rank": 9,
+            "rank": 8,
             "value": "boolean"
         },
         "AAh": {
@@ -97,7 +88,7 @@
             "default_val": true,
             "editor": "DynamicValue",
             "name": "currentLocation",
-            "rank": 10,
+            "rank": 9,
             "value": "boolean"
         },
         "AAi": {
@@ -105,7 +96,7 @@
             "default_val": "Search for a location",
             "editor": "StaticText",
             "name": "geocoderPlaceholder",
-            "rank": 11
+            "rank": 10
         },
         "AAo": {
             "caption": "multilocations",
@@ -113,7 +104,7 @@
             "is_list": true,
             "name": "multilocations",
             "optional": false,
-            "rank": 6,
+            "rank": 5,
             "value": "_any_thing"
         },
         "AAp": {
@@ -122,14 +113,14 @@
             "editor": "Checkbox",
             "in_style": false,
             "name": "imageMarker",
-            "rank": 12
+            "rank": 11
         },
         "AAq": {
             "caption": "defaultImage",
             "editor": "Image",
             "name": "defaultImage",
             "optional": true,
-            "rank": 13
+            "rank": 12
         },
         "AAt": {
             "caption": "icon database name",
@@ -137,19 +128,19 @@
             "editor": "StaticText",
             "name": "icondbname",
             "optional": false,
-            "rank": 14
+            "rank": 13
         },
         "AAu": {
             "caption": "latitude database name",
             "editor": "StaticText",
             "name": "latitudedbname",
-            "rank": 15
+            "rank": 14
         },
         "AAv": {
             "caption": "longitude database name",
             "editor": "StaticText",
             "name": "longitudedbname",
-            "rank": 16
+            "rank": 15
         }
     },
     "has_reset_fn": false,
