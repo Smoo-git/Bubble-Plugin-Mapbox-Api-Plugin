@@ -214,26 +214,9 @@ function(instance, properties) {
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
-      // マーカーの元のサイズと位置を保存する変数
-      let originalMarkerSize = {
-        width: originalWidth,
-        height: originalHeight,
-        cx: originalWidth / 2,
-        cy: originalHeight / 2
-      };
-
-      // マーカーをクリックしたときの処理
+      // マーカー要素をクリックしたときの処理
       markerElement.addEventListener('click', () => {
-        if (isMarkerExpanded(markerElement)) {
-          // マーカーが拡大されている場合は元のサイズに戻す
-          restoreMarkerSize(markerElement, originalMarkerSize);
-        } else {
-          // マーカーが拡大されていない場合は拡大する
-          expandMarker(markerElement, originalWidth, originalHeight);
-
-          // 他のマーカーのサイズを元のサイズに戻す
-          resetOtherMarkers();
-        }
+        expandMarker(markerElement, width, height);
       });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
@@ -310,44 +293,6 @@ function(instance, properties) {
     // 吹き出し部分の縦横比を保ったまま拡大
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
-  }
-
-  // マーカーが拡大されているかどうかを判定する関数
-  function isMarkerExpanded(markerElement) {
-    const currentWidth = parseInt(markerElement.getAttribute('width'));
-    const currentHeight = parseInt(markerElement.getAttribute('height'));
-    return currentWidth > originalWidth || currentHeight > originalHeight;
-  }
-
-  // マーカーのサイズを元のサイズに戻す関数
-  function restoreMarkerSize(markerElement, originalSize) {
-    markerElement.setAttribute('width', originalSize.width);
-    markerElement.setAttribute('height', originalSize.height);
-    const circleElement = markerElement.querySelector('circle');
-    const imageElement = markerElement.querySelector('image');
-    circleElement.setAttribute('r', originalSize.width / 2);
-    circleElement.setAttribute('cx', originalSize.cx);
-    circleElement.setAttribute('cy', originalSize.cy);
-    imageElement.setAttribute('height', originalSize.height - 8);
-    imageElement.setAttribute('width', originalSize.width - 8);
-    imageElement.setAttribute('y', 4);
-    imageElement.setAttribute('x', 4);
-  }
-
-  // 他のマーカーのサイズを元のサイズに戻す関数
-  function resetOtherMarkers() {
-    const markers = document.querySelectorAll('.mapboxgl-marker');
-    markers.forEach(marker => {
-      if (isMarkerExpanded(marker)) {
-        const originalSize = {
-          width: parseInt(marker.getAttribute('width')),
-          height: parseInt(marker.getAttribute('height')),
-          cx: parseInt(marker.querySelector('circle').getAttribute('cx')),
-          cy: parseInt(marker.querySelector('circle').getAttribute('cy'))
-        };
-        restoreMarkerSize(marker, originalSize);
-      }
-    });
   }
 
 
