@@ -238,7 +238,6 @@ function(instance, properties) {
         marker.getElement().setAttribute('width', properties.iconWidth * 1.5);
         marker.getElement().setAttribute('height', properties.iconHeight * 1.5 + 10);
         instance.publishState('markerId', markerId);
-        console.log(markerId);
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
             otherMarker.getElement().classList.remove('active');
