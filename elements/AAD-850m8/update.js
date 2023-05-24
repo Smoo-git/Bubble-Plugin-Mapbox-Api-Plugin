@@ -257,9 +257,6 @@ function(instance, properties) {
     }
   }
 
-
-
-
   // マップの中心マーカーを作成
   if (properties.centerPointer) {
     const centerMarker = document.createElement('div');
@@ -326,7 +323,7 @@ function(instance, properties) {
     // Initialize marker variable
     let marker;
 
-    // Attach a click event listener to the map, but only if it hasn't been attached before
+    /* Attach a click event listener to the map, but only if it hasn't been attached before
     if (!instance.data.clickEventListenerAttached) {
 
       instance.data.map.on('click', function (e) {
@@ -359,6 +356,6 @@ function(instance, properties) {
       });
 
       instance.data.clickEventListenerAttached = true;
-    }
+    }*/
   }
 }
