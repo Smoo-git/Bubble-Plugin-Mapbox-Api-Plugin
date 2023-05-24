@@ -165,7 +165,7 @@ function(instance, properties) {
 
     // 三角形の部分（吹き出しの尾部分）
     const triangleElement = document.createElementNS(svgns, 'polygon');
-    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 8}, ${height} ${width / 2 + 8}, ${height} ${width / 2}, ${height + 5}`);
+    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 8}, ${height - 10} ${width / 2 + 8}, ${height - 10} ${width / 2}, ${height + 10}`);
     triangleElement.setAttributeNS(null, 'fill', 'white');
     triangleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
