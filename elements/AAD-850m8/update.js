@@ -214,6 +214,11 @@ function(instance, properties) {
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
+      // マーカー要素をクリックしたときの処理
+      markerElement.addEventListener('click', () => {
+        // マーカーを拡大
+        expandMarker(markerElement, width, height);
+      });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
