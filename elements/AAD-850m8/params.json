@@ -240,6 +240,14 @@
             },
             "name": "southEastLng",
             "value": "number"
+        },
+        "ABJ": {
+            "caption": "markerId",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "markerId",
+            "value": "text"
         }
     }
 }
