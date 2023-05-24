@@ -154,22 +154,22 @@ function(instance, properties) {
     const circleElement = document.createElementNS(svgns, 'circle');
     circleElement.setAttributeNS(null, 'cx', width / 2);
     circleElement.setAttributeNS(null, 'cy', height / 2);
-    circleElement.setAttributeNS(null, 'r', width / 2);
+    circleElement.setAttributeNS(null, 'r', (width - 4) / 2); // ボーダーの分を減らす
     circleElement.setAttributeNS(null, 'fill', 'white');
 
     // 三角形の部分（吹き出しの尾部分）
     const triangleElement = document.createElementNS(svgns, 'polygon');
-    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 10}, ${height} ${width / 2 + 10}, ${height} ${width / 2}, ${height + 10}`);
+    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 5}, ${height} ${width / 2 + 5}, ${height} ${width / 2}, ${height + 5}`);
     triangleElement.setAttributeNS(null, 'fill', 'white');
 
     // 画像を配置
     const imageElement = document.createElementNS(svgns, 'image');
     imageElement.setAttributeNS(null, 'href', `https://${image}`);
-    imageElement.setAttributeNS(null, 'height', height); // 三角形の高さはここでは含めない
-    imageElement.setAttributeNS(null, 'width', width);
-    imageElement.setAttributeNS(null, 'y', 0);
-    imageElement.setAttributeNS(null, 'x', 0);
-    imageElement.setAttributeNS(null, 'clip-path', 'circle(50% at 50% 50%)'); // 画像を円形に切り抜く
+    imageElement.setAttributeNS(null, 'height', height - 4); // ボーダーの分を減らす
+    imageElement.setAttributeNS(null, 'width', width - 4); // ボーダーの分を減らす
+    imageElement.setAttributeNS(null, 'y', 2); // ボーダーの分をオフセットする
+    imageElement.setAttributeNS(null, 'x', 2); // ボーダーの分をオフセットする
+    imageElement.setAttributeNS(null, 'clip-path', 'circle(48% at 50% 50%)'); // 画像を円形に切り抜く、ボーダーの分を減らす
 
     svgElement.appendChild(circleElement);
     svgElement.appendChild(triangleElement);
@@ -177,6 +177,7 @@ function(instance, properties) {
 
     return svgElement;
   }
+
 
   for (const marker of geojson.features) {
     let newMarker;
