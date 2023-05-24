@@ -232,7 +232,6 @@ function(instance, properties) {
   function expandMarker(markerElement, originalWidth, originalHeight) {
     const expandedWidth = originalWidth * 1.5;
     const expandedHeight = originalHeight * 1.5;
-    console.log(expandedWidth);
 
     // SVG 要素を取得
     const svgElement = markerElement.querySelector('svg');
@@ -243,6 +242,10 @@ function(instance, properties) {
       const triangleElement = svgElement.querySelector('polygon');
       const imageElement = svgElement.querySelector('image');
 
+      console.log(circleElement);
+      console.log(triangleElement);
+      console.log(imageElement);
+
       if (circleElement && triangleElement && imageElement) {
         // 各要素を拡大
         circleElement.setAttributeNS(null, 'r', (expandedWidth - 8) / 2);
@@ -250,12 +253,13 @@ function(instance, properties) {
         imageElement.setAttributeNS(null, 'height', expandedHeight - 8);
         imageElement.setAttributeNS(null, 'width', expandedWidth - 8);
 
-        // 吹き出し部分の縦横比を保ったまま拡大
-        markerElement.style.width = `${expandedWidth}px`;
-        markerElement.style.height = `${expandedHeight}px`;
+        // スタイル属性を変更する
+        svgElement.style.width = `${expandedWidth}px`;
+        svgElement.style.height = `${expandedHeight}px`;
       }
     }
   }
+
 
   // マップの中心マーカーを作成
   if (properties.centerPointer) {
