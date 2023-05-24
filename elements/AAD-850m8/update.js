@@ -214,9 +214,26 @@ function(instance, properties) {
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
-      // マーカー要素をクリックしたときの処理
+      // マーカーの元のサイズと位置を保存する変数
+      let originalMarkerSize = {
+        width: originalWidth,
+        height: originalHeight,
+        cx: originalWidth / 2,
+        cy: originalHeight / 2
+      };
+
+      // マーカーをクリックしたときの処理
       markerElement.addEventListener('click', () => {
-        expandMarker(markerElement, width, height);
+        if (isMarkerExpanded(markerElement)) {
+          // マーカーが拡大されている場合は元のサイズに戻す
+          restoreMarkerSize(markerElement, originalMarkerSize);
+        } else {
+          // マーカーが拡大されていない場合は拡大する
+          expandMarker(markerElement, originalWidth, originalHeight);
+
+          // 他のマーカーのサイズを元のサイズに戻す
+          resetOtherMarkers();
+        }
       });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
@@ -246,19 +263,93 @@ function(instance, properties) {
       const newHeight = newWidth / originalAspectRatio;
       const newCx = newWidth / 2;
       const newCy = newHeight / 2;
-      circleElement.setAttribute('r', newWidth / 2);
-      circleElement.setAttribute('cx', newCx);
-      circleElement.setAttribute('cy', newCy);
-      imageElement.setAttribute('height', newHeight);
-      imageElement.setAttribute('width', newWidth);
-      imageElement.setAttribute('y', newCy - newHeight / 2);
-      imageElement.setAttribute('x', newCx - newWidth / 2);
+
+      // アニメーション用の変数
+      let startWidth = originalWidth;
+      let startHeight = originalHeight;
+      let startCx = originalWidth / 2;
+      let startCy = originalHeight / 2;
+      let currentTime = 0;
+      const duration = 500; // アニメーションの期間（ミリ秒）
+
+      function animate() {
+        currentTime += 16; // 16ミリ秒ごとにアニメーションを更新（約60fps）
+
+        if (currentTime > duration) {
+          // アニメーション終了時の値をセット
+          circleElement.setAttribute('r', newWidth / 2);
+          circleElement.setAttribute('cx', newCx);
+          circleElement.setAttribute('cy', newCy);
+          imageElement.setAttribute('height', newHeight);
+          imageElement.setAttribute('width', newWidth);
+          imageElement.setAttribute('y', newCy - newHeight / 2);
+          imageElement.setAttribute('x', newCx - newWidth / 2);
+        } else {
+          // アニメーション中の値をセット
+          const progress = currentTime / duration;
+          const currentWidth = startWidth + (expandedWidth - startWidth) * progress;
+          const currentHeight = startHeight + (expandedHeight - startHeight) * progress;
+          const currentCx = startCx + (newCx - startCx) * progress;
+          const currentCy = startCy + (newCy - startCy) * progress;
+
+          circleElement.setAttribute('r', currentWidth / 2);
+          circleElement.setAttribute('cx', currentCx);
+          circleElement.setAttribute('cy', currentCy);
+          imageElement.setAttribute('height', currentHeight);
+          imageElement.setAttribute('width', currentWidth);
+          imageElement.setAttribute('y', currentCy - currentHeight / 2);
+          imageElement.setAttribute('x', currentCx - currentWidth / 2);
+
+          requestAnimationFrame(animate);
+        }
+      }
+
+      animate();
     }
 
     // 吹き出し部分の縦横比を保ったまま拡大
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
   }
+
+  // マーカーが拡大されているかどうかを判定する関数
+  function isMarkerExpanded(markerElement) {
+    const currentWidth = parseInt(markerElement.getAttribute('width'));
+    const currentHeight = parseInt(markerElement.getAttribute('height'));
+    return currentWidth > originalWidth || currentHeight > originalHeight;
+  }
+
+  // マーカーのサイズを元のサイズに戻す関数
+  function restoreMarkerSize(markerElement, originalSize) {
+    markerElement.setAttribute('width', originalSize.width);
+    markerElement.setAttribute('height', originalSize.height);
+    const circleElement = markerElement.querySelector('circle');
+    const imageElement = markerElement.querySelector('image');
+    circleElement.setAttribute('r', originalSize.width / 2);
+    circleElement.setAttribute('cx', originalSize.cx);
+    circleElement.setAttribute('cy', originalSize.cy);
+    imageElement.setAttribute('height', originalSize.height - 8);
+    imageElement.setAttribute('width', originalSize.width - 8);
+    imageElement.setAttribute('y', 4);
+    imageElement.setAttribute('x', 4);
+  }
+
+  // 他のマーカーのサイズを元のサイズに戻す関数
+  function resetOtherMarkers() {
+    const markers = document.querySelectorAll('.mapboxgl-marker');
+    markers.forEach(marker => {
+      if (isMarkerExpanded(marker)) {
+        const originalSize = {
+          width: parseInt(marker.getAttribute('width')),
+          height: parseInt(marker.getAttribute('height')),
+          cx: parseInt(marker.querySelector('circle').getAttribute('cx')),
+          cy: parseInt(marker.querySelector('circle').getAttribute('cy'))
+        };
+        restoreMarkerSize(marker, originalSize);
+      }
+    });
+  }
+
 
 
 
