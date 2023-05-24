@@ -259,17 +259,22 @@ function(instance, properties) {
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
     marker.getElement().addEventListener('click', () => {
-      if (marker.getElement().classList.contains('active')) {
-        // クリックされたマーカーが.activeクラスを持っている場合、サイズを元のサイズに戻す
-        expandMarker(marker.getElement(), properties.iconWidth, properties.iconHeight);
-        marker.getElement().classList.remove('active');
-      } else {
+      if (!marker.getElement().classList.contains('active')) {
         // クリックされたマーカーを拡大する
         expandMarker(marker.getElement(), properties.iconWidth * 1.5, properties.iconHeight * 1.5);
         marker.getElement().classList.add('active');
+
+        // 他のマーカーのサイズを縮小する
+        for (const otherMarker of instance.data.markers) {
+          if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
+            expandMarker(otherMarker.getElement(), properties.iconWidth, properties.iconHeight);
+            otherMarker.getElement().classList.remove('active');
+          }
+        }
       }
     });
   }
+
 
 
   // マップの中心マーカーを作成
