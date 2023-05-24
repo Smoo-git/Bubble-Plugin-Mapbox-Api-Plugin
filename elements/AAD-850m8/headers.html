@@ -2,13 +2,22 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
   rel="stylesheet" />
 <style>
+  svg.mapboxgl-marker g {
+    transition: transform .1s ease;
+  }
+
   svg.mapboxgl-marker.active g {
     transform: scale(1.5);
-    transition: all .2s ease;
+    transition: transform .1s ease;
+  }
+
+  svg.mapboxgl-marker {
+    transform: scale(1.5);
+    transition: width .1s ease, height .1s ease;
   }
 
   svg.mapboxgl-marker.active {
     transform: scale(1.5);
-    transition: all .2s ease;
+    transition: width .1s ease, height .1s ease;
   }
 </style>
