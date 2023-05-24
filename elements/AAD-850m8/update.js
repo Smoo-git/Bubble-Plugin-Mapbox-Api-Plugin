@@ -225,7 +225,7 @@ function(instance, properties) {
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
-    const markerId = marker.id;
+    const markerId = marker.properties.id;
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
