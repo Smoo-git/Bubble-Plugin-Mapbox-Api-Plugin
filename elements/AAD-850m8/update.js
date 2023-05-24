@@ -131,13 +131,13 @@ function(instance, properties) {
     features: markersData.map(function (marker) {
       return {
         type: 'Feature',
+        id: marker.id,
         geometry: {
           type: 'Point',
           coordinates: [marker.lng, marker.lat]
         },
         properties: {
-          image: marker.imgUrl,
-          id: marker.id
+          image: marker.imgUrl
         }
       };
     })
@@ -208,8 +208,9 @@ function(instance, properties) {
       const width = properties.iconWidth;
       const height = properties.iconHeight;
       const image = marker.properties.image;
+      const markerId = marker.id;
 
-      const markerElement = createMarkerElement(width, height, image);
+      const markerElement = createMarkerElement(width, height, image, markerId);
 
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
@@ -225,7 +226,7 @@ function(instance, properties) {
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
-    let markerId = marker.properties.id;
+    const markerId = marker.id;
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
