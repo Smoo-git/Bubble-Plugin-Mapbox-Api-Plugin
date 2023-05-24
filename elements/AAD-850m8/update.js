@@ -235,21 +235,25 @@ function(instance, properties) {
 
     // SVG内の各要素を取得
     const circleElement = markerElement.querySelector('circle');
-    const triangleElement = markerElement.querySelector('polygon');
     const imageElement = markerElement.querySelector('image');
 
-    if (circleElement && triangleElement && imageElement) {
-      // 各要素を拡大
-      circleElement.setAttribute('r', (expandedWidth - 8) / 2);
-      triangleElement.setAttribute('points', `${expandedWidth / 2 - 8}, ${expandedHeight - 10} ${expandedWidth / 2 + 8}, ${expandedHeight - 10} ${expandedWidth / 2}, ${expandedHeight + 10}`);
-      imageElement.setAttribute('height', expandedHeight - 8);
-      imageElement.setAttribute('width', expandedWidth - 8);
+    if (circleElement && imageElement) {
+      // 拡大前の縦横比を計算
+      const originalAspectRatio = originalWidth / originalHeight;
 
-      // 吹き出し部分の縦横比を保ったまま拡大
-      markerElement.setAttribute('width', expandedWidth);
-      markerElement.setAttribute('height', expandedHeight);
+      // 画像と円のサイズを調整
+      const newWidth = expandedWidth - 8;
+      const newHeight = newWidth / originalAspectRatio;
+      circleElement.setAttribute('r', newWidth / 2);
+      imageElement.setAttribute('height', newHeight);
+      imageElement.setAttribute('width', newWidth);
     }
+
+    // 吹き出し部分の縦横比を保ったまま拡大
+    markerElement.setAttribute('width', expandedWidth);
+    markerElement.setAttribute('height', expandedHeight);
   }
+
 
 
 
