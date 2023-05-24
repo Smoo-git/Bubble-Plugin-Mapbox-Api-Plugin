@@ -148,7 +148,7 @@ function(instance, properties) {
     // SVG要素を作成
     const svgElement = document.createElementNS(svgns, 'svg');
     svgElement.setAttributeNS(null, 'width', width);
-    svgElement.setAttributeNS(null, 'height', height);
+    svgElement.setAttributeNS(null, 'height', height + 10); // 三角形の高さ分追加
 
     // 円形の部分（バルーンの部分）
     const circleElement = document.createElementNS(svgns, 'circle');
@@ -165,11 +165,11 @@ function(instance, properties) {
     // 画像を配置
     const imageElement = document.createElementNS(svgns, 'image');
     imageElement.setAttributeNS(null, 'href', `https://${image}`);
-    imageElement.setAttributeNS(null, 'height', height - 10); // 10は三角形の高さ
+    imageElement.setAttributeNS(null, 'height', height); // 三角形の高さはここでは含めない
     imageElement.setAttributeNS(null, 'width', width);
     imageElement.setAttributeNS(null, 'y', 0);
     imageElement.setAttributeNS(null, 'x', 0);
-    imageElement.setAttributeNS(null, 'clip-path', `circle(${width / 2}px at center)`);
+    imageElement.setAttributeNS(null, 'clip-path', 'circle(50% at 50% 50%)'); // 画像を円形に切り抜く
 
     svgElement.appendChild(circleElement);
     svgElement.appendChild(triangleElement);
@@ -177,7 +177,6 @@ function(instance, properties) {
 
     return svgElement;
   }
-
 
   for (const marker of geojson.features) {
     let newMarker;
