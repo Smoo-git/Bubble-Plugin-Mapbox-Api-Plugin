@@ -143,7 +143,7 @@ function(instance, properties) {
     })
   };
 
-  function createMarkerElement(width, height, image) {
+  function createMarkerElement(width, height, image, id) {
     // SVGの名前空間
     const svgns = "http://www.w3.org/2000/svg";
 
@@ -208,9 +208,9 @@ function(instance, properties) {
       const width = properties.iconWidth;
       const height = properties.iconHeight;
       const image = marker.properties.image;
-      const markerId = marker.properties.id;
+      const id = marker.properties.id;
 
-      const markerElement = createMarkerElement(width, height, image, markerId);
+      const markerElement = createMarkerElement(width, height, image, id);
 
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
