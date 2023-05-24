@@ -103,7 +103,7 @@ function(instance, properties) {
     if (properties.locations && typeof properties.locations.get === 'function' && typeof properties.locations.length === 'function') {
       let locations = properties.locations.get(0, properties.locations.length());
       let processEachLocation = (location, index, array) => {
-        // データベースから取得した値を変数に代入
+        let markerId = location.get('_id'); // データベースからIDを取得
         let lat = location.get(latitudeDb);
         let lng = location.get(longitudeDb);
         let imgUrl;
@@ -115,6 +115,7 @@ function(instance, properties) {
 
         // markersData配列に新たな要素を追加
         markersData.push({
+          id: markerId, // マーカーのIDを追加
           lng: lng,
           lat: lat,
           imgUrl: imgUrl
@@ -130,6 +131,7 @@ function(instance, properties) {
     features: markersData.map(function (marker) {
       return {
         type: 'Feature',
+        id: marker.id, // マーカーのIDを指定する
         geometry: {
           type: 'Point',
           coordinates: [marker.lng, marker.lat]
@@ -199,8 +201,6 @@ function(instance, properties) {
 
     return svgElement;
   }
-
-
 
   for (const marker of geojson.features) {
     let newMarker;
