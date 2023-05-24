@@ -208,7 +208,7 @@ function(instance, properties) {
       const width = properties.iconWidth;
       const height = properties.iconHeight;
       const image = marker.properties.image;
-      const markerId = marker.id;
+      const markerId = marker.properties.id;
 
       const markerElement = createMarkerElement(width, height, image, markerId);
 
