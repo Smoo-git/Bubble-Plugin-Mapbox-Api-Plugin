@@ -242,10 +242,6 @@ function(instance, properties) {
       const triangleElement = svgElement.querySelector('polygon');
       const imageElement = svgElement.querySelector('image');
 
-      console.log(circleElement);
-      console.log(triangleElement);
-      console.log(imageElement);
-
       if (circleElement && triangleElement && imageElement) {
         // 各要素を拡大
         circleElement.setAttributeNS(null, 'r', (expandedWidth - 8) / 2);
@@ -253,9 +249,9 @@ function(instance, properties) {
         imageElement.setAttributeNS(null, 'height', expandedHeight - 8);
         imageElement.setAttributeNS(null, 'width', expandedWidth - 8);
 
-        // スタイル属性を変更する
-        svgElement.style.width = `${expandedWidth}px`;
-        svgElement.style.height = `${expandedHeight}px`;
+        // SVG要素をクローンして置き換える
+        const newSvgElement = svgElement.cloneNode(true);
+        markerElement.replaceChild(newSvgElement, svgElement);
       }
     }
   }
