@@ -131,13 +131,13 @@ function(instance, properties) {
     features: markersData.map(function (marker) {
       return {
         type: 'Feature',
-        id: marker.id,
         geometry: {
           type: 'Point',
           coordinates: [marker.lng, marker.lat]
         },
         properties: {
-          image: marker.imgUrl
+          image: marker.imgUrl,
+          id: marker.id
         }
       };
     })
