@@ -219,21 +219,6 @@ function(instance, properties) {
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
     }
-    newMarker.getElement().addEventListener('click', () => {
-      if (expandedMarker === newMarker) {
-        // クリックされたマーカーが既に拡大されている場合、サイズを元に戻す
-        expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
-        expandedMarker = null;
-      } else {
-        // 他のマーカーがクリックされた場合、拡大されたマーカーのサイズを元に戻す
-        if (expandedMarker) {
-          expandMarker(expandedMarker.getElement(), properties.iconWidth, properties.iconHeight);
-        }
-        // クリックされたマーカーを拡大する
-        expandMarker(newMarker.getElement(), properties.iconWidth * 1.5, properties.iconHeight * 1.5);
-        expandedMarker = newMarker;
-      }
-    });
     // 追加したマーカーをinstance.data.markersに保存
     instance.data.markers.push(newMarker);
   }
@@ -267,6 +252,23 @@ function(instance, properties) {
     // 吹き出し部分の縦横比を保ったまま拡大
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
+    // .activeクラスを追加
+    markerElement.classList.add('active');
+  }
+
+  // クリックイベントを定義
+  for (const marker of instance.data.markers) {
+    marker.getElement().addEventListener('click', () => {
+      if (marker.getElement().classList.contains('active')) {
+        // クリックされたマーカーが.activeクラスを持っている場合、サイズを元のサイズに戻す
+        expandMarker(marker.getElement(), properties.iconWidth, properties.iconHeight);
+        marker.getElement().classList.remove('active');
+      } else {
+        // クリックされたマーカーを拡大する
+        expandMarker(marker.getElement(), properties.iconWidth * 1.5, properties.iconHeight * 1.5);
+        marker.getElement().classList.add('active');
+      }
+    });
   }
 
 
