@@ -177,15 +177,14 @@ function(instance, properties) {
     imageElement.setAttributeNS(null, 'y', 4); // ボーダーの分をオフセットする
     imageElement.setAttributeNS(null, 'x', 4); // ボーダーの分をオフセットする
     imageElement.setAttributeNS(null, 'clip-path', 'circle(48% at 50% 50%)'); // 画像を円形に切り抜く
-    imageElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // シャドウのフィルター要素を作成
     const filterElement = document.createElementNS(svgns, 'filter');
     filterElement.setAttributeNS(null, 'id', 'marker-shadow');
     filterElement.setAttributeNS(null, 'x', '-20%');
     filterElement.setAttributeNS(null, 'y', '-20%');
-    filterElement.setAttributeNS(null, 'width', '140%');
-    filterElement.setAttributeNS(null, 'height', '140%');
+    filterElement.setAttributeNS(null, 'width', '120%');
+    filterElement.setAttributeNS(null, 'height', '120%');
 
     const feDropShadowElement = document.createElementNS(svgns, 'feDropShadow');
     feDropShadowElement.setAttributeNS(null, 'dx', '0');
