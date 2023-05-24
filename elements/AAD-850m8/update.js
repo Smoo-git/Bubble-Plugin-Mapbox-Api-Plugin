@@ -232,15 +232,16 @@ function(instance, properties) {
   function expandMarker(markerElement, originalWidth, originalHeight) {
     const expandedWidth = originalWidth * 1.5;
     const expandedHeight = originalHeight * 1.5;
-
+    console.log(expandedHeight);
     // SVG 要素を取得
     const svgElement = markerElement.querySelector('svg');
-
+    console.log(svgElement);
     if (svgElement) {
       // SVG 内の子要素を取得
       const circleElement = svgElement.querySelector('circle');
       const triangleElement = svgElement.querySelector('polygon');
       const imageElement = svgElement.querySelector('image');
+      console.log(circleElement, triangleElement, imageElement);
 
       if (circleElement && triangleElement && imageElement) {
         // 各要素を拡大
