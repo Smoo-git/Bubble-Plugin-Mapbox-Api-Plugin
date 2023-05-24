@@ -232,30 +232,25 @@ function(instance, properties) {
   function expandMarker(markerElement, originalWidth, originalHeight) {
     const expandedWidth = originalWidth * 1.5;
     const expandedHeight = originalHeight * 1.5;
-    console.log(expandedHeight);
-    // SVG 要素を取得
-    const svgElement = markerElement.querySelector('svg');
-    console.log(svgElement);
-    if (svgElement) {
-      // SVG 内の子要素を取得
-      const circleElement = svgElement.querySelector('circle');
-      const triangleElement = svgElement.querySelector('polygon');
-      const imageElement = svgElement.querySelector('image');
-      console.log(circleElement, triangleElement, imageElement);
 
-      if (circleElement && triangleElement && imageElement) {
-        // 各要素を拡大
-        circleElement.setAttributeNS(null, 'r', (expandedWidth - 8) / 2);
-        triangleElement.setAttributeNS(null, 'points', `${expandedWidth / 2 - 8}, ${expandedHeight - 10} ${expandedWidth / 2 + 8}, ${expandedHeight - 10} ${expandedWidth / 2}, ${expandedHeight + 10}`);
-        imageElement.setAttributeNS(null, 'height', expandedHeight - 8);
-        imageElement.setAttributeNS(null, 'width', expandedWidth - 8);
+    // SVG内の各要素を取得
+    const circleElement = markerElement.querySelector('circle');
+    const triangleElement = markerElement.querySelector('polygon');
+    const imageElement = markerElement.querySelector('image');
 
-        // SVG要素をクローンして置き換える
-        const newSvgElement = svgElement.cloneNode(true);
-        markerElement.replaceChild(newSvgElement, svgElement);
-      }
+    if (circleElement && triangleElement && imageElement) {
+      // 各要素を拡大
+      circleElement.setAttribute('r', (expandedWidth - 8) / 2);
+      triangleElement.setAttribute('points', `${expandedWidth / 2 - 8}, ${expandedHeight - 10} ${expandedWidth / 2 + 8}, ${expandedHeight - 10} ${expandedWidth / 2}, ${expandedHeight + 10}`);
+      imageElement.setAttribute('height', expandedHeight - 8);
+      imageElement.setAttribute('width', expandedWidth - 8);
+
+      // 吹き出し部分の縦横比を保ったまま拡大
+      markerElement.setAttribute('width', expandedWidth);
+      markerElement.setAttribute('height', expandedHeight);
     }
   }
+
 
 
   // マップの中心マーカーを作成
