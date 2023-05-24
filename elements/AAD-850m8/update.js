@@ -216,8 +216,8 @@ function(instance, properties) {
         .addTo(map);
       // マーカー要素をクリックしたときの処理
       markerElement.addEventListener('click', () => {
-        // マーカーを拡大
         expandMarker(markerElement, width, height);
+        console.log(markerElement);
       });
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
