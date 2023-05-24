@@ -209,7 +209,6 @@ function(instance, properties) {
       const height = properties.iconHeight;
       const image = marker.properties.image;
       const markerId = marker.id;
-      console.log(markerId);
 
       const markerElement = createMarkerElement(width, height, image, markerId);
 
@@ -227,7 +226,7 @@ function(instance, properties) {
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
-    const markerId = marker.id;
+    const markerId = marker.properties.id;
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
