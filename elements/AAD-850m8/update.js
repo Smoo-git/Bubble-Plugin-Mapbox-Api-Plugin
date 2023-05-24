@@ -246,55 +246,19 @@ function(instance, properties) {
       const newHeight = newWidth / originalAspectRatio;
       const newCx = newWidth / 2;
       const newCy = newHeight / 2;
-
-      // アニメーション用の変数
-      let startWidth = originalWidth;
-      let startHeight = originalHeight;
-      let startCx = originalWidth / 2;
-      let startCy = originalHeight / 2;
-      let currentTime = 0;
-      const duration = 500; // アニメーションの期間（ミリ秒）
-
-      function animate() {
-        currentTime += 16; // 16ミリ秒ごとにアニメーションを更新（約60fps）
-
-        if (currentTime > duration) {
-          // アニメーション終了時の値をセット
-          circleElement.setAttribute('r', newWidth / 2);
-          circleElement.setAttribute('cx', newCx);
-          circleElement.setAttribute('cy', newCy);
-          imageElement.setAttribute('height', newHeight);
-          imageElement.setAttribute('width', newWidth);
-          imageElement.setAttribute('y', newCy - newHeight / 2);
-          imageElement.setAttribute('x', newCx - newWidth / 2);
-        } else {
-          // アニメーション中の値をセット
-          const progress = currentTime / duration;
-          const currentWidth = startWidth + (expandedWidth - startWidth) * progress;
-          const currentHeight = startHeight + (expandedHeight - startHeight) * progress;
-          const currentCx = startCx + (newCx - startCx) * progress;
-          const currentCy = startCy + (newCy - startCy) * progress;
-
-          circleElement.setAttribute('r', currentWidth / 2);
-          circleElement.setAttribute('cx', currentCx);
-          circleElement.setAttribute('cy', currentCy);
-          imageElement.setAttribute('height', currentHeight);
-          imageElement.setAttribute('width', currentWidth);
-          imageElement.setAttribute('y', currentCy - currentHeight / 2);
-          imageElement.setAttribute('x', currentCx - currentWidth / 2);
-
-          requestAnimationFrame(animate);
-        }
-      }
-
-      animate();
+      circleElement.setAttribute('r', newWidth / 2);
+      circleElement.setAttribute('cx', newCx);
+      circleElement.setAttribute('cy', newCy);
+      imageElement.setAttribute('height', newHeight);
+      imageElement.setAttribute('width', newWidth);
+      imageElement.setAttribute('y', newCy - newHeight / 2);
+      imageElement.setAttribute('x', newCx - newWidth / 2);
     }
 
     // 吹き出し部分の縦横比を保ったまま拡大
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
   }
-
 
 
 
