@@ -244,15 +244,22 @@ function(instance, properties) {
       // 画像と円のサイズを調整
       const newWidth = expandedWidth - 8;
       const newHeight = newWidth / originalAspectRatio;
+      const newCx = newWidth / 2;
+      const newCy = newHeight / 2;
       circleElement.setAttribute('r', newWidth / 2);
+      circleElement.setAttribute('cx', newCx);
+      circleElement.setAttribute('cy', newCy);
       imageElement.setAttribute('height', newHeight);
       imageElement.setAttribute('width', newWidth);
+      imageElement.setAttribute('y', newCy - newHeight / 2);
+      imageElement.setAttribute('x', newCx - newWidth / 2);
     }
 
     // 吹き出し部分の縦横比を保ったまま拡大
     markerElement.setAttribute('width', expandedWidth);
     markerElement.setAttribute('height', expandedHeight);
   }
+
 
 
 
