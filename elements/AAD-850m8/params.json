@@ -17,7 +17,7 @@
     "fields": {
         "AAE": {
             "caption": "zoom",
-            "default_val": "12",
+            "default_val": 15,
             "editor": "DynamicValue",
             "name": "zoom",
             "rank": 0,
@@ -42,6 +42,7 @@
         "AAH": {
             "caption": "iconWidth",
             "default_val": 50,
+            "doc": "max 80px",
             "editor": "DynamicValue",
             "name": "iconWidth",
             "rank": 3,
@@ -50,6 +51,7 @@
         "AAI": {
             "caption": "iconHeight",
             "default_val": 50,
+            "doc": "max 80px",
             "editor": "DynamicValue",
             "name": "iconHeight",
             "rank": 4,
