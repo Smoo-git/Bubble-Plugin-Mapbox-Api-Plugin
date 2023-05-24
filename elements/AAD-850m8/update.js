@@ -224,8 +224,8 @@ function(instance, properties) {
   }
 
   function expandMarker(markerElement, originalWidth, originalHeight) {
-    const expandedWidth = originalWidth * 1.5;
-    const expandedHeight = originalHeight * 1.5;
+    const expandedWidth = originalWidth;
+    const expandedHeight = originalHeight;
 
     // SVG内の各要素を取得
     const circleElement = markerElement.querySelector('circle');
