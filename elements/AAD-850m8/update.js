@@ -225,13 +225,14 @@ function(instance, properties) {
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
+    const markerId = marker.id;
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
         marker.getElement().setAttribute('width', properties.iconWidth * 1.5);
         marker.getElement().setAttribute('height', properties.iconHeight * 1.5 + 10);
-        instance.publishState('markerId', marker.id);
-        console.log(marker.id);
+        instance.publishState('markerId', markerId);
+        console.log(markerId);
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
             otherMarker.getElement().classList.remove('active');
