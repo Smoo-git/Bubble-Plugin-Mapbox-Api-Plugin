@@ -206,7 +206,7 @@ function(instance, properties) {
     let newMarker;
     if (properties.imageMarker) {
       const width = properties.iconWidth;
-      const height = properties.iconHeight;
+      const height = width;
       const image = marker.properties.image;
       const id = marker.properties.id;
 
@@ -236,13 +236,13 @@ function(instance, properties) {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
         marker.getElement().setAttribute('width', properties.iconWidth * 1.5);
-        marker.getElement().setAttribute('height', properties.iconHeight * 1.5 + 10);
+        marker.getElement().setAttribute('height', properties.iconWidth * 1.5 + 10);
         instance.publishState('markerId', markerId);
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
             otherMarker.getElement().classList.remove('active');
             otherMarker.getElement().setAttribute('width', properties.iconWidth);
-            otherMarker.getElement().setAttribute('height', properties.iconHeight + 10);
+            otherMarker.getElement().setAttribute('height', properties.iconWidth + 10);
           }
         }
       }
