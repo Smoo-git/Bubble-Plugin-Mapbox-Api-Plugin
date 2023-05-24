@@ -215,6 +215,11 @@ function(instance, properties) {
       newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
+      // マーカーオブジェクトに ID を追加
+      newMarker.properties = {
+        ...marker.properties,
+        id: id
+      };
     } else {
       newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
         .setLngLat(marker.geometry.coordinates)
@@ -226,7 +231,7 @@ function(instance, properties) {
 
   // クリックイベントを定義
   for (const marker of instance.data.markers) {
-    const markerId = marker.getElement().properties.id;
+    const markerId = marker.properties.id;
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
