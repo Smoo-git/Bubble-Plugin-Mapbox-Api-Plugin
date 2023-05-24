@@ -157,17 +157,14 @@ function(instance, properties) {
     const circleElement = document.createElementNS(svgns, 'circle');
     circleElement.setAttributeNS(null, 'cx', width / 2);
     circleElement.setAttributeNS(null, 'cy', height / 2);
-    circleElement.setAttributeNS(null, 'r', (width - 8) / 2); // ボーダーの分を減らす
+    circleElement.setAttributeNS(null, 'r', width / 2 - 2);
     circleElement.setAttributeNS(null, 'fill', 'white');
-    circleElement.setAttributeNS(null, 'stroke', 'white'); // ボーダーの色
-    circleElement.setAttributeNS(null, 'stroke-width', '4'); // ボーダーの幅
     circleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 三角形の部分（吹き出しの尾部分）
     const triangleElement = document.createElementNS(svgns, 'polygon');
     triangleElement.setAttributeNS(null, 'points', `${width / 2 - 8}, ${height - 10} ${width / 2 + 8}, ${height - 10} ${width / 2}, ${height + 10}`);
     triangleElement.setAttributeNS(null, 'fill', 'white');
-    triangleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 画像を配置
     const imageElement = document.createElementNS(svgns, 'image');
@@ -177,19 +174,20 @@ function(instance, properties) {
     imageElement.setAttributeNS(null, 'y', 4); // ボーダーの分をオフセットする
     imageElement.setAttributeNS(null, 'x', 4); // ボーダーの分をオフセットする
     imageElement.setAttributeNS(null, 'clip-path', 'circle(48% at 50% 50%)'); // 画像を円形に切り抜く
+    imageElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // シャドウのフィルター要素を作成
     const filterElement = document.createElementNS(svgns, 'filter');
     filterElement.setAttributeNS(null, 'id', 'marker-shadow');
     filterElement.setAttributeNS(null, 'x', '-20%');
     filterElement.setAttributeNS(null, 'y', '-20%');
-    filterElement.setAttributeNS(null, 'width', '120%');
-    filterElement.setAttributeNS(null, 'height', '120%');
+    filterElement.setAttributeNS(null, 'width', '140%');
+    filterElement.setAttributeNS(null, 'height', '140%');
 
     const feDropShadowElement = document.createElementNS(svgns, 'feDropShadow');
     feDropShadowElement.setAttributeNS(null, 'dx', '0');
     feDropShadowElement.setAttributeNS(null, 'dy', '2');
-    feDropShadowElement.setAttributeNS(null, 'stdDeviation', '4');
+    feDropShadowElement.setAttributeNS(null, 'stdDeviation', '2');
     feDropShadowElement.setAttributeNS(null, 'flood-color', 'rgba(0, 0, 0, 0.2)');
 
     filterElement.appendChild(feDropShadowElement);
