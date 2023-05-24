@@ -1,7 +1,7 @@
 function(instance, properties) {
 
   const map = instance.data.map;
-    
+
   const iconDb = properties.icondbname + "_image"
   const latitudeDb = properties.latitudedbname + "_number"
   const longitudeDb = properties.longitudedbname + "_number"
@@ -107,11 +107,11 @@ function(instance, properties) {
         let lat = location.get(latitudeDb);
         let lng = location.get(longitudeDb);
         let imgUrl;
-          if (location.get(iconDb)) {
-              imgUrl = location.get(iconDb);
-          } else {
-              imgUrl = properties.defaultImage;
-          }
+        if (location.get(iconDb)) {
+          imgUrl = location.get(iconDb);
+        } else {
+          imgUrl = properties.defaultImage;
+        }
 
         // markersData配列に新たな要素を追加
         markersData.push({
@@ -125,80 +125,99 @@ function(instance, properties) {
   } catch (error) {
     console.error('Error while trying to get location data:', error);
   }
-    const geojson = {
-      type: 'FeatureCollection',
-      features: markersData.map(function(marker) {
-        return {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [marker.lng, marker.lat]
-          },
-          properties: {
-                image: marker.imgUrl
-          }
-        };
-      })
-    };
-
-  // Add markers to the map.
-    for (const marker of geojson.features) {
-        let newMarker;
-        if(properties.imageMarker) {
-            // Create a DOM element for each marker.
-            const containerElement = document.createElement('div');
-
-            const el = document.createElement('div');
-            const width = properties.iconWidth;
-            const height = properties.iconHeight;
-            const image = marker.properties.image;
-
-            containerElement.style.height = `${height + 7}px`;
-
-            // 吹き出しの三角形を表すSVG要素を作成
-            const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            triangleElement.setAttribute('width', '12');
-            triangleElement.setAttribute('height', '10');
-            triangleElement.setAttribute('viewBox', '0 0 12 10');
-            triangleElement.style.position = 'absolute';
-            triangleElement.style.top = 'calc(100% - 3px)';
-            triangleElement.style.left = 'calc(50% - 6px)';
-            triangleElement.style.transform = 'translateY(-50%)';
-
-            const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
-            pathElement.setAttribute('fill', 'white');
-
-            triangleElement.appendChild(pathElement);
-            containerElement.appendChild(triangleElement);
-
-            //画像部分
-            el.className = 'marker';
-            el.style.backgroundImage = `url(https://${image})`;
-            el.style.width = `${width}px`;
-            el.style.height = `${height}px`;
-            el.style.backgroundSize = '100%';
-            el.style.borderRadius = '50%';
-            el.style.border = '2px solid white';
-            el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-
-            containerElement.appendChild(el);
-
-            // Add markers to the map.
-            newMarker = new mapboxgl.Marker(containerElement, {anchor: 'bottom'})
-                .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
-        } else {
-            newMarker = new mapboxgl.Marker({anchor: 'bottom'})
-            .setLngLat(marker.geometry.coordinates)
-            .addTo(map);
+  const geojson = {
+    type: 'FeatureCollection',
+    features: markersData.map(function (marker) {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [marker.lng, marker.lat]
+        },
+        properties: {
+          image: marker.imgUrl
         }
-        // 追加したマーカーをinstance.data.markersに保存
-        instance.data.markers.push(newMarker);
+      };
+    })
+  };
+
+  function createMarkerElement(width, height, image) {
+    const containerElement = document.createElement('div');
+    const el = document.createElement('div');
+
+    containerElement.style.height = `${height + 7}px`;
+
+    // 吹き出しの三角形を表すSVG要素を作成
+    const triangleElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    triangleElement.setAttribute('width', '12');
+    triangleElement.setAttribute('height', '10');
+    triangleElement.setAttribute('viewBox', '0 0 12 10');
+    triangleElement.style.position = 'absolute';
+    triangleElement.style.top = 'calc(100% - 3px)';
+    triangleElement.style.left = 'calc(50% - 6px)';
+    triangleElement.style.transform = 'translateY(-50%)';
+
+    const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    pathElement.setAttribute('d', 'M0,0 L6,10 L12,0 Z');
+    pathElement.setAttribute('fill', 'white');
+
+    triangleElement.appendChild(pathElement);
+    containerElement.appendChild(triangleElement);
+
+    //画像部分
+    el.className = 'marker';
+    el.style.backgroundImage = `url(https://${image})`;
+    el.style.width = `${width}px`;
+    el.style.height = `${height}px`;
+    el.style.backgroundSize = '100%';
+    el.style.borderRadius = '50%';
+    el.style.border = '2px solid white';
+    el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+
+    containerElement.appendChild(el);
+    containerElement.appendChild(triangleElement);
+
+    // クリックイベントリスナーを追加
+    containerElement.addEventListener('click', function () {
+      expandMarker(el, width, height);
+    });
+
+    return containerElement;
+  }
+  for (const marker of geojson.features) {
+    let newMarker;
+    if (properties.imageMarker) {
+      const width = properties.iconWidth;
+      const height = properties.iconHeight;
+      const image = marker.properties.image;
+
+      const markerElement = createMarkerElement(width, height, image);
+
+      newMarker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+    } else {
+      newMarker = new mapboxgl.Marker({ anchor: 'bottom' })
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
     }
-    
-    
-	// マップの中心マーカーを作成
+
+    // 追加したマーカーをinstance.data.markersに保存
+    instance.data.markers.push(newMarker);
+  }
+
+
+  function expandMarker(markerElement, originalWidth, originalHeight) {
+    const expandedWidth = originalWidth * 1.5;
+    const expandedHeight = originalHeight * 1.5;
+
+    // 吹き出し部分の縦横比を保ったまま拡大
+    markerElement.style.width = `${expandedWidth}px`;
+    markerElement.style.height = `${expandedHeight}px`;
+  }
+
+
+  // マップの中心マーカーを作成
   if (properties.centerPointer) {
     const centerMarker = document.createElement('div');
     centerMarker.id = 'center-marker';
@@ -244,21 +263,21 @@ function(instance, properties) {
       const longitude = center.lng;
       instance.publishState('centerLat', '緯度:' + latitude);
       instance.publishState('centerLng', '経度:' + longitude);
-              
-        let bounds = instance.data.map.getBounds();
 
-        let sw = bounds.getSouthWest(); // 南西の座標を取得
-        let ne = bounds.getNorthEast(); // 北東の座標を取得
-        let nw = new mapboxgl.LngLat(sw.lng, ne.lat); // 北西の座標を取得
-        let se = new mapboxgl.LngLat(ne.lng, sw.lat); // 南東の座標を取得
-        instance.publishState('southWestLat', sw.lat);
-        instance.publishState('northEastLat', ne.lat);
-        instance.publishState('northWestLat', nw.lat);
-        instance.publishState('southEastLat', se.lat);
-        instance.publishState('southWestLng', sw.lng);
-        instance.publishState('northEastLng', ne.lng);
-        instance.publishState('northWestLng', nw.lng);
-        instance.publishState('southEastLng', se.lng);
+      let bounds = instance.data.map.getBounds();
+
+      let sw = bounds.getSouthWest(); // 南西の座標を取得
+      let ne = bounds.getNorthEast(); // 北東の座標を取得
+      let nw = new mapboxgl.LngLat(sw.lng, ne.lat); // 北西の座標を取得
+      let se = new mapboxgl.LngLat(ne.lng, sw.lat); // 南東の座標を取得
+      instance.publishState('southWestLat', sw.lat);
+      instance.publishState('northEastLat', ne.lat);
+      instance.publishState('northWestLat', nw.lat);
+      instance.publishState('southEastLat', se.lat);
+      instance.publishState('southWestLng', sw.lng);
+      instance.publishState('northEastLng', ne.lng);
+      instance.publishState('northWestLng', nw.lng);
+      instance.publishState('southEastLng', se.lng);
     });
 
     // Initialize marker variable
