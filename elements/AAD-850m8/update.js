@@ -159,16 +159,14 @@ function(instance, properties) {
     circleElement.setAttributeNS(null, 'cy', height / 2);
     circleElement.setAttributeNS(null, 'r', (width - 8) / 2); // ボーダーの分を減らす
     circleElement.setAttributeNS(null, 'fill', 'white');
-    circleElement.setAttributeNS(null, 'stroke', 'black'); // ボーダーの色
+    circleElement.setAttributeNS(null, 'stroke', 'white'); // ボーダーの色
     circleElement.setAttributeNS(null, 'stroke-width', '4'); // ボーダーの幅
     circleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 三角形の部分（吹き出しの尾部分）
     const triangleElement = document.createElementNS(svgns, 'polygon');
-    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 8}, ${height} ${width / 2 + 8}, ${height} ${width / 2}, ${height + 5}`); // 幅を半分にしてマイナスマージンを適用
+    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 4}, ${height} ${width / 2 + 4}, ${height} ${width / 4}, ${height + 5}`);
     triangleElement.setAttributeNS(null, 'fill', 'white');
-    triangleElement.setAttributeNS(null, 'stroke', 'black'); // ボーダーの色
-    triangleElement.setAttributeNS(null, 'stroke-width', '4'); // ボーダーの幅
     triangleElement.setAttributeNS(null, 'filter', 'url(#marker-shadow)'); // シャドウの適用
 
     // 画像を配置
@@ -193,7 +191,7 @@ function(instance, properties) {
     feDropShadowElement.setAttributeNS(null, 'dx', '0');
     feDropShadowElement.setAttributeNS(null, 'dy', '2');
     feDropShadowElement.setAttributeNS(null, 'stdDeviation', '4');
-    feDropShadowElement.setAttributeNS(null, 'flood-color', 'rgba(0, 0, 0, 0.4)');
+    feDropShadowElement.setAttributeNS(null, 'flood-color', 'rgba(0, 0, 0, 0.2)');
 
     filterElement.appendChild(feDropShadowElement);
     svgElement.appendChild(filterElement);
