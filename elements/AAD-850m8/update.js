@@ -1,6 +1,10 @@
 function(instance, properties) {
 
   const map = instance.data.map;
+    
+  const iconDb = properties.icondbname + "_image"
+  const latitudeDb = properties.latitudedbname + "_number"
+  const longitudeDb = properties.longitudedbname + "_number"
 
   if (properties.showSearchBox) {
     if (!instance.data.geocoder) {
@@ -98,16 +102,15 @@ function(instance, properties) {
   try {
     if (properties.locations && typeof properties.locations.get === 'function' && typeof properties.locations.length === 'function') {
       let locations = properties.locations.get(0, properties.locations.length());
-
       let processEachLocation = (location, index, array) => {
         // データベースから取得した値を変数に代入
-        let lat = location.get("latitude_number");
-        let lng = location.get("longitude_number");
+        let lat = location.get(latitudeDb);
+        let lng = location.get(longitudeDb);
         let imgUrl;
-          if (location.get("img_image")) {
-        		imgUrl = location.get("img_image");
+          if (location.get(iconDb)) {
+              imgUrl = location.get(iconDb);
           } else {
-             imgUrl = properties.defaultImage;
+              imgUrl = properties.defaultImage;
           }
 
         // markersData配列に新たな要素を追加
@@ -140,6 +143,7 @@ function(instance, properties) {
 
   // Add markers to the map.
     for (const marker of geojson.features) {
+        let newMarker;
         if(properties.imageMarker) {
             // Create a DOM element for each marker.
             const containerElement = document.createElement('div');
@@ -176,19 +180,21 @@ function(instance, properties) {
             el.style.backgroundSize = '100%';
             el.style.borderRadius = '50%';
             el.style.border = '2px solid white';
-            el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+            el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
 
             containerElement.appendChild(el);
 
             // Add markers to the map.
-            new mapboxgl.Marker(containerElement, {anchor: 'bottom'})
+            newMarker = new mapboxgl.Marker(containerElement, {anchor: 'bottom'})
                 .setLngLat(marker.geometry.coordinates)
                 .addTo(map);
         } else {
-            new mapboxgl.Marker({anchor: 'bottom'})
+            newMarker = new mapboxgl.Marker({anchor: 'bottom'})
             .setLngLat(marker.geometry.coordinates)
             .addTo(map);
         }
+        // 追加したマーカーをinstance.data.markersに保存
+        instance.data.markers.push(newMarker);
     }
     
     
@@ -238,6 +244,21 @@ function(instance, properties) {
       const longitude = center.lng;
       instance.publishState('centerLat', '緯度:' + latitude);
       instance.publishState('centerLng', '経度:' + longitude);
+              
+        let bounds = instance.data.map.getBounds();
+
+        let sw = bounds.getSouthWest(); // 南西の座標を取得
+        let ne = bounds.getNorthEast(); // 北東の座標を取得
+        let nw = new mapboxgl.LngLat(sw.lng, ne.lat); // 北西の座標を取得
+        let se = new mapboxgl.LngLat(ne.lng, sw.lat); // 南東の座標を取得
+        instance.publishState('southWestLat', sw.lat);
+        instance.publishState('northEastLat', ne.lat);
+        instance.publishState('northWestLat', nw.lat);
+        instance.publishState('southEastLat', se.lat);
+        instance.publishState('southWestLng', sw.lng);
+        instance.publishState('northEastLng', ne.lng);
+        instance.publishState('northWestLng', nw.lng);
+        instance.publishState('southEastLng', se.lng);
     });
 
     // Initialize marker variable

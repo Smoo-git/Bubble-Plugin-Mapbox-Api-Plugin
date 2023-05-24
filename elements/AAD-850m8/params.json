@@ -128,6 +128,26 @@
             "name": "defaultImage",
             "optional": true,
             "rank": 13
+        },
+        "AAt": {
+            "caption": "icon database name",
+            "default_val": "",
+            "editor": "StaticText",
+            "name": "icondbname",
+            "optional": false,
+            "rank": 14
+        },
+        "AAu": {
+            "caption": "latitude database name",
+            "editor": "StaticText",
+            "name": "latitudedbname",
+            "rank": 15
+        },
+        "AAv": {
+            "caption": "longitude database name",
+            "editor": "StaticText",
+            "name": "longitudedbname",
+            "rank": 16
         }
     },
     "has_reset_fn": false,
@@ -156,6 +176,70 @@
             },
             "name": "centerLng",
             "value": "text"
+        },
+        "ABA": {
+            "caption": "SouthWestLat",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "southWestLat",
+            "value": "number"
+        },
+        "ABB": {
+            "caption": "NorthEastLat",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "northEastLat",
+            "value": "number"
+        },
+        "ABC": {
+            "caption": "NorthWestLat",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "northWestLat",
+            "value": "number"
+        },
+        "ABD": {
+            "caption": "SouthEastLat",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "southEastLat",
+            "value": "number"
+        },
+        "ABE": {
+            "caption": "southWestLng",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "southWestLng",
+            "value": "number"
+        },
+        "ABF": {
+            "caption": "northEastLng",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "northEastLng",
+            "value": "number"
+        },
+        "ABG": {
+            "caption": "northWestLng",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "northWestLng",
+            "value": "number"
+        },
+        "ABH": {
+            "caption": "southEastLng",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "southEastLng",
+            "value": "number"
         }
     }
 }

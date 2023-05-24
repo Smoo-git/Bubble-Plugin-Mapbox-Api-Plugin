@@ -7,6 +7,13 @@
             "name": "location",
             "rank": 0,
             "value": "_any_thing"
+        },
+        "ABI": {
+            "caption": "zoom",
+            "editor": "DynamicValue",
+            "name": "zoom",
+            "rank": 1,
+            "value": "number"
         }
     }
 }
