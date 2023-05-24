@@ -228,13 +228,13 @@ function(instance, properties) {
     marker.getElement().addEventListener('click', () => {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
-        marker.getElement().style.width = properties.iconWidth * 1.5;
-        marker.getElement().style.height = properties.iconHeight * 1.5;
+        marker.getElement().style.width = properties.iconWidth * 1.5 + "px";
+        marker.getElement().style.height = properties.iconHeight * 1.5 + "px";
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
             otherMarker.getElement().classList.remove('active');
-            marker.getElement().style.width = properties.iconWidth;
-            marker.getElement().style.height = properties.iconHeight;
+            marker.getElement().style.width = properties.iconWidth + "px";
+            marker.getElement().style.height = properties.iconHeight + "px";
           }
         }
       }
