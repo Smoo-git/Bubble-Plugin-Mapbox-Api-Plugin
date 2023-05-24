@@ -219,11 +219,17 @@ function(instance, properties) {
         .setLngLat(marker.geometry.coordinates)
         .addTo(map);
     }
-    newMarker.getElement().addEventListener('click', () => {
-      expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
-    });
     // 追加したマーカーをinstance.data.markersに保存
     instance.data.markers.push(newMarker);
+  }
+
+  for (const marker of instance.data.markers) {
+    marker.getElement().addEventListener('click', () => {
+      const markerElement = marker.getElement();
+      const width = parseFloat(markerElement.getAttribute('width'));
+      const height = parseFloat(markerElement.getAttribute('height'));
+      expandMarker(markerElement, width, height);
+    });
   }
 
   function expandMarker(markerElement, originalWidth, originalHeight) {
