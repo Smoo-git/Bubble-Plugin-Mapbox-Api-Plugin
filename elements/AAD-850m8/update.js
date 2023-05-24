@@ -237,21 +237,26 @@ function(instance, properties) {
     // SVG 要素を取得
     const svgElement = markerElement.querySelector('svg');
 
-    // SVG 内の子要素を取得
-    const circleElement = svgElement.querySelector('circle');
-    const triangleElement = svgElement.querySelector('polygon');
-    const imageElement = svgElement.querySelector('image');
+    if (svgElement) {
+      // SVG 内の子要素を取得
+      const circleElement = svgElement.querySelector('circle');
+      const triangleElement = svgElement.querySelector('polygon');
+      const imageElement = svgElement.querySelector('image');
 
-    // 各要素を拡大
-    circleElement.setAttributeNS(null, 'r', (expandedWidth - 8) / 2);
-    triangleElement.setAttributeNS(null, 'points', `${expandedWidth / 2 - 8}, ${expandedHeight - 10} ${expandedWidth / 2 + 8}, ${expandedHeight - 10} ${expandedWidth / 2}, ${expandedHeight + 10}`);
-    imageElement.setAttributeNS(null, 'height', expandedHeight - 8);
-    imageElement.setAttributeNS(null, 'width', expandedWidth - 8);
+      if (circleElement && triangleElement && imageElement) {
+        // 各要素を拡大
+        circleElement.setAttributeNS(null, 'r', (expandedWidth - 8) / 2);
+        triangleElement.setAttributeNS(null, 'points', `${expandedWidth / 2 - 8}, ${expandedHeight - 10} ${expandedWidth / 2 + 8}, ${expandedHeight - 10} ${expandedWidth / 2}, ${expandedHeight + 10}`);
+        imageElement.setAttributeNS(null, 'height', expandedHeight - 8);
+        imageElement.setAttributeNS(null, 'width', expandedWidth - 8);
 
-    // 吹き出し部分の縦横比を保ったまま拡大
-    markerElement.style.width = `${expandedWidth}px`;
-    markerElement.style.height = `${expandedHeight}px`;
+        // 吹き出し部分の縦横比を保ったまま拡大
+        markerElement.style.width = `${expandedWidth}px`;
+        markerElement.style.height = `${expandedHeight}px`;
+      }
+    }
   }
+
 
 
 
