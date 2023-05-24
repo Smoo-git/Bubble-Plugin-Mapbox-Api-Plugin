@@ -220,7 +220,7 @@ function(instance, properties) {
         .addTo(map);
     }
     newMarker.getElement().addEventListener('click', () => {
-      expandMarker(newMarker.getElement(), width, height);
+      expandMarker(newMarker.getElement(), properties.iconWidth, properties.iconHeight);
     });
     // 追加したマーカーをinstance.data.markersに保存
     instance.data.markers.push(newMarker);
