@@ -229,12 +229,12 @@ function(instance, properties) {
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
         marker.getElement().setAttribute('width', properties.iconWidth * 1.5);
-        marker.getElement().setAttribute('height', properties.iconHeight * 1.5);
+        marker.getElement().setAttribute('height', properties.iconHeight * 1.5 + 10);
         for (const otherMarker of instance.data.markers) {
           if (otherMarker !== marker && otherMarker.getElement().classList.contains('active')) {
             otherMarker.getElement().classList.remove('active');
             otherMarker.getElement().setAttribute('width', properties.iconWidth);
-            otherMarker.getElement().setAttribute('height', properties.iconHeight);
+            otherMarker.getElement().setAttribute('height', properties.iconHeight + 10);
           }
         }
       }
