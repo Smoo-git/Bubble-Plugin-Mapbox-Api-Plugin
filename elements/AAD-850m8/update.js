@@ -142,39 +142,42 @@ function(instance, properties) {
   };
 
   function createMarkerElement(width, height, image) {
-    // 吹き出し全体のSVG要素を作成
-    const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svgElement.setAttribute('width', width);
-    svgElement.setAttribute('height', height + 10); // +10 for the triangle
-    svgElement.style.position = 'relative';
-    svgElement.style.display = 'block';
+    // SVGの名前空間
+    const svgns = "http://www.w3.org/2000/svg";
 
-    // 吹き出しの画像部分の円と三角形をクリップパスとして定義
-    const defsElement = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    const clipPathElement = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
-    clipPathElement.setAttribute('id', 'clip');
-    const circleElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circleElement.setAttribute('cx', width / 2);
-    circleElement.setAttribute('cy', height / 2);
-    circleElement.setAttribute('r', width / 2);
-    clipPathElement.appendChild(circleElement);
+    // SVG要素を作成
+    const svgElement = document.createElementNS(svgns, 'svg');
+    svgElement.setAttributeNS(null, 'width', width);
+    svgElement.setAttributeNS(null, 'height', height);
 
-    const pathElement = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    pathElement.setAttribute('d', `M${width / 2}, ${height} L${width / 2 - 5}, ${height + 10} L${width / 2 + 5}, ${height + 10} Z`);
-    clipPathElement.appendChild(pathElement);
-    defsElement.appendChild(clipPathElement);
-    svgElement.appendChild(defsElement);
+    // 円形の部分（バルーンの部分）
+    const circleElement = document.createElementNS(svgns, 'circle');
+    circleElement.setAttributeNS(null, 'cx', width / 2);
+    circleElement.setAttributeNS(null, 'cy', height / 2);
+    circleElement.setAttributeNS(null, 'r', width / 2);
+    circleElement.setAttributeNS(null, 'fill', 'white');
 
-    // 画像要素を作成し、先に定義したクリップパスを適用
-    const imageElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-    imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `https://${image}`);
-    imageElement.setAttribute('width', width);
-    imageElement.setAttribute('height', height + 10); // +10 for the triangle
-    imageElement.setAttribute('clip-path', 'url(#clip)');
+    // 三角形の部分（吹き出しの尾部分）
+    const triangleElement = document.createElementNS(svgns, 'polygon');
+    triangleElement.setAttributeNS(null, 'points', `${width / 2 - 10}, ${height} ${width / 2 + 10}, ${height} ${width / 2}, ${height + 10}`);
+    triangleElement.setAttributeNS(null, 'fill', 'white');
+
+    // 画像を配置
+    const imageElement = document.createElementNS(svgns, 'image');
+    imageElement.setAttributeNS(null, 'href', `https://${image}`);
+    imageElement.setAttributeNS(null, 'height', height - 10); // 10は三角形の高さ
+    imageElement.setAttributeNS(null, 'width', width);
+    imageElement.setAttributeNS(null, 'y', 0);
+    imageElement.setAttributeNS(null, 'x', 0);
+    imageElement.setAttributeNS(null, 'clip-path', `circle(${width / 2}px at center)`);
+
+    svgElement.appendChild(circleElement);
+    svgElement.appendChild(triangleElement);
     svgElement.appendChild(imageElement);
 
     return svgElement;
   }
+
 
   for (const marker of geojson.features) {
     let newMarker;
