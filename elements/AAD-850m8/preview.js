@@ -9,11 +9,13 @@ function(instance, properties) {
     let lng = properties.longitude;
     let lat = properties.latitude;
     let zoom = properties.zoom;
-
+    
+    let styleUrl;
+    if(properties.style) {styleUrl = 'properties.style'} else {styleUrl = 'mapbox://styles/mapbox/streets-v12'}
     mapboxgl.accessToken = 'pk.eyJ1Ijoic21vb2luYyIsImEiOiJjbGZrZzdoZjMwYWJ3M3Fxb2R1bG40djJkIn0.4CeUTM2gOPvQ7fVcVriSLQ';
     const map = new mapboxgl.Map({
       container: mapContainer[0], // container element
-      style: 'mapbox://styles/mapbox/streets-v12', // style URL
+      style: styleUrl, // style URL
       center: [lng, lat], // starting position [lng, lat]
       zoom: zoom, // starting zoom
     });

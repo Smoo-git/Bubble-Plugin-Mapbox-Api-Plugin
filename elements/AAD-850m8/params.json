@@ -141,6 +141,13 @@
             "editor": "StaticText",
             "name": "longitudedbname",
             "rank": 15
+        },
+        "ABO": {
+            "caption": "style",
+            "editor": "StaticText",
+            "name": "style",
+            "optional": true,
+            "rank": 16
         }
     },
     "has_reset_fn": false,

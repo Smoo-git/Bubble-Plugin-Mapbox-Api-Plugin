@@ -1,6 +1,7 @@
 function(instance, properties) {
 
   const map = instance.data.map;
+  if(properties.style) {map.setStyle(properties.style)}
 
   const iconDb = properties.icondbname + "_image"
   const latitudeDb = properties.latitudedbname + "_number"
