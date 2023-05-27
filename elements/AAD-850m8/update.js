@@ -293,7 +293,9 @@ function(instance, properties) {
     instance.data.map.setZoom(zoom);
 
     instance.data.map.on('moveend', () => {
-      instance.triggerEvent('moveend');
+        if(!instance.data.update) {
+              instance.triggerEvent('moveend');
+        }
       const center = instance.data.map.getCenter();
       const latitude = center.lat;
       const longitude = center.lng;
