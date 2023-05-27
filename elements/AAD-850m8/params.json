@@ -9,9 +9,13 @@
     "display": "Mapbox Map",
     "events": {
         "AAc": {
-            "caption": "new events",
+            "caption": "Click",
             "doc": "",
-            "name": "new_events"
+            "name": "mapclick"
+        },
+        "ABR": {
+            "caption": "Map move end",
+            "name": "moveend"
         }
     },
     "fields": {

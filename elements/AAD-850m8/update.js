@@ -1,5 +1,4 @@
 function(instance, properties) {
-
   const map = instance.data.map;
   if(properties.style) {map.setStyle(properties.style)}
 
@@ -293,6 +292,7 @@ function(instance, properties) {
     instance.data.map.setZoom(zoom);
 
     instance.data.map.on('moveend', () => {
+      instance.triggerEvent('moveend');
       const center = instance.data.map.getCenter();
       const latitude = center.lat;
       const longitude = center.lng;
@@ -316,7 +316,7 @@ function(instance, properties) {
     });
 
     // Initialize marker variable
-    let marker;
+    //let marker;
 
     /* Attach a click event listener to the map, but only if it hasn't been attached before
     if (!instance.data.clickEventListenerAttached) {
@@ -325,7 +325,7 @@ function(instance, properties) {
         console.log('Latitude: ' + e.lngLat.lat + ', Longitude: ' + e.lngLat.lng);
 
         //カスタムイベントが発火
-        instance.triggerEvent('new_events', function (err) {
+        instance.triggerEvent('mapclick', function (err) {
           if (err) {
             console.log('エラーが発生しました:', err);
           } else {

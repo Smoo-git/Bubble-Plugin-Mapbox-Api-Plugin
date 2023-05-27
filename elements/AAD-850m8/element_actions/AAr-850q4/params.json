@@ -14,6 +14,22 @@
             "name": "zoom",
             "rank": 1,
             "value": "number"
+        },
+        "ABP": {
+            "caption": "latOffset",
+            "default_val": 0,
+            "editor": "StaticNumber",
+            "name": "latoffset",
+            "optional": true,
+            "rank": 2
+        },
+        "ABQ": {
+            "caption": "lngOffset",
+            "default_val": 0,
+            "editor": "StaticNumber",
+            "name": "lngoffset",
+            "optional": true,
+            "rank": 3
         }
     }
 }
