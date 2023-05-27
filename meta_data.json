@@ -2,7 +2,7 @@
     "categories": {
         "0": "location"
     },
-    "image": "//s3.amazonaws.com/appforest_uf/f1531455189113x959372189361602000/Bubble%20Icon.png",
+    "image": "//meta-l.cdn.bubble.io/f1685163772620x364182609856519500/mapbox_logo_icon_169974.png",
     "license": "private",
     "name": "Mapbox API Plugin",
     "sa_node_version": 14

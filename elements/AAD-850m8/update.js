@@ -234,6 +234,13 @@ function(instance, properties) {
   for (const marker of instance.data.markers) {
     const markerId = marker.properties.id;
     marker.getElement().addEventListener('click', () => {
+        instance.triggerEvent('mapclick', function (err) {
+          if (err) {
+            console.log('エラーが発生しました:', err);
+          } else {
+            console.log('カスタムイベントがトリガーされました');
+          }
+        });
       if (!marker.getElement().classList.contains('active')) {
         marker.getElement().classList.add('active');
         marker.getElement().setAttribute('width', properties.iconWidth * 1.5);
@@ -318,43 +325,7 @@ function(instance, properties) {
       instance.publishState('southEastLng', se.lng);
     });
 
-    // Initialize marker variable
-    //let marker;
-
-    /* Attach a click event listener to the map, but only if it hasn't been attached before
-    if (!instance.data.clickEventListenerAttached) {
-
-      instance.data.map.on('click', function (e) {
-        console.log('Latitude: ' + e.lngLat.lat + ', Longitude: ' + e.lngLat.lng);
-
-        //カスタムイベントが発火
-        instance.triggerEvent('mapclick', function (err) {
-          if (err) {
-            console.log('エラーが発生しました:', err);
-          } else {
-            console.log('カスタムイベントがトリガーされました');
-          }
-        });
-
-        // Remove the previous marker if it exists
-        if (marker) {
-          marker.remove();
-        }
-
-        // Create a new marker
-        marker = new mapboxgl.Marker()
-          .setLngLat(e.lngLat)
-          .addTo(instance.data.map);
-
-        // Attach a click event listener to the marker
-        marker.getElement().addEventListener('click', () => {
-          marker.remove();
-          marker = null;
-        });
-      });
-
-      instance.data.clickEventListenerAttached = true;
-    }*/
+    
   }
         instance.data.update = false;
     }
