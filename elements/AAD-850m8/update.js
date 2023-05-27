@@ -1,4 +1,5 @@
 function(instance, properties) {
+    if(instance.data.update) {
   const map = instance.data.map;
   if(properties.style) {map.setStyle(properties.style)}
 
@@ -353,4 +354,6 @@ function(instance, properties) {
       instance.data.clickEventListenerAttached = true;
     }*/
   }
+        instance.data.update = false;
+    }
 }

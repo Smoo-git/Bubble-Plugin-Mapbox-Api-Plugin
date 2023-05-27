@@ -17,6 +17,7 @@ function(instance, context) {
   });
 
   instance.data.map = map;
+    instance.data.update = true;
   instance.publishState('centerLat', null);
   instance.publishState('centerLng', null);
 }
